@@ -185,7 +185,7 @@
   //  },
     "custom/power-menu": {
         "format": "⏻",
-        "on-click": "exec wlogout --protocol layer-shell -b 5 --margin-top 450 --margin-bottom 400 --column-spacing 25"
+        "on-click": "sleep 0.1; exec wlogout --protocol layer-shell -b 5 --margin-top 450 --margin-bottom 400 --column-spacing 25"
     },
     "custom/launcher": {
         "format": "",
