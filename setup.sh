@@ -68,10 +68,11 @@ install_packages() {
 	echo "\nStart installation...\n"
 
 	xbps-install -y \
-	alacritty bspwm dbus dbus-devel dbus-libs dbus-x11 docker dunst elogind gcc htop neofetch libconfig \
-	libconfig-devel libconfig++ libconfig++-devel libev libev-devel libevdev libglvnd libglvnd-devel libX11 \
-	libX11-devel libxcb libxcb-devel libxdg-basedir pcre2 pixman uthash xcb-util-image xcb-util-renderutil \
-	pavucontrol polybar polkit pulseaudio python3-pipx ranger rofi sxhkd xscreensaver \
+	alacritty bspwm dbus dbus-devel dbus-libs dbus-x11 docker dunst elogind gcc htop neofetch \
+	libconfig libconfig-devel libconfig++ libconfig++-devel libev libev-devel libevdev libglvnd \
+	libglvnd-devel libX11 libX11-devel libxcb libxcb-devel libxdg-basedir NetworkManager pcre2 \
+	pixman uthash xcb-util-image xcb-util-renderutil pavucontrol polybar polkit pulseaudio \
+	python3-pipx ranger rofi sxhkd xscreensaver \
 
 	pipx ensurepath
 
@@ -96,6 +97,22 @@ install_packages() {
 	cd ~/Downloads
 
 	rm -r -f compfy
+
+	ln -s /etc/sv/containerd /var/service/
+
+	ln -s /etc/sv/dbus /var/service/
+
+	ln -s /etc/sv/docker /var/service/
+
+	ln -s /etc/sv/elogind /var/service/
+
+	ln -s /etc/sv/NetworkManager /var/service/
+
+	ln -s /etc/sv/polkitd /var/service/
+
+	cd /etc/sv
+
+	rm acpid && rm wpa_supplicant && rm dhcpcd*
 
 	delimiter
 
