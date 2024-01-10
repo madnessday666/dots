@@ -5,13 +5,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-#[[ -r /home/madnessday666/.oh-my-zsh/custom/plugins/znap/znap.zsh ]] ||
-#    git clone --depth 1 -- \
-#       https://github.com/marlonrichert/zsh-snap.git /home/madnessday666/.oh-my-zsh/custom/plugins/znap
-#source /home/madnessday666/.oh-my-zsh/custom/plugins/znap/znap.zsh  # Start Znap
-#znap source marlonrichert/zsh-autocomplete
-#source ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -22,6 +15,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+#ZSH_THEME="robbyrussell"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
@@ -84,11 +78,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-
-plugins=( 
-    git
-    zsh-autosuggestions
-)
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -118,18 +108,11 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
 alias idea='exec nohup ${HOME}/Intellij-Idea/bin/idea.sh'
 
-alias mnt='sudo mount /dev/nvme0n1p3 /mnt/nvme0;
-           sudo mount /dev/nvme1n1p1 /mnt/nvme1'
-alias umnt='sudo umount /dev/nvme0n1p3 /mnt/nvme0; 
-            sudo umount /dev/nvme1n1p1 /mnt/nvme1'  
-alias note='exec nohup QOwnNotes'
-
-export HYPRSHOT_DIR=${HOME}/Screenshots
-
-MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
+
+# Created by `pipx` on 2024-01-09 22:42:32
+export PATH="$PATH:/home/madnessday666/.local/bin"

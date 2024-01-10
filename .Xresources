@@ -1,0 +1,105 @@
+! ------------------------------------------------------------------------------
+! Import Colour from $HOME/.xrdb
+! ------------------------------------------------------------------------------
+
+#include ".xrdb/color/nord"
+#include ".xrdb/rofi/nord"
+#include ".xrdb/dmenu/nord"
+
+Xft.dpi: 96
+Xft.antialias: true
+Xft.hinting: true
+Xft.rgba: rgb
+Xft.autohint: false
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
+  
+*background:                      #272827
+*foreground:                      #657b83
+*fading:                          15
+*fadeColor:                       black
+*cursorColor:                     #16A085
+*pointerColorBackground:          #2B2C2B
+*pointerColorForeground:          #16A085
+
+!! black dark/light
+*color0:                          #232423
+*color8:                          #282928
+
+!! red dark/light
+*color1:                          #BA2922
+*color9:                          #CC372C
+
+!! green dark/light
+*color2:                          #7E807E
+*color10:                         #8D8F8D
+
+!! yellow dark/light
+*color3:                          #4C4F4D
+*color11:                         #4E524F
+
+!! blue dark/light
+*color4:                          #16A085
+*color12:                         #13BF9D
+
+!! magenta dark/light
+*color5:                          #43746A
+*color13:                         #487D72
+
+!! cyan dark/light
+*color6:                          #00CCCC
+*color14:                         #00D1D1
+
+!! white dark/light
+*color7:                          #E0E0E0
+*color15:                         #E8E8E8
+
+Xcursor.theme: xcursor-breeze
+Xcursor.size:                     0
+
+!HOLY SHIT IT WORKS
+!*.background:   [75]#172a47
+*.background: [75]#0b2545
+*.cursorColor:  #8aeff4
+
+! 1
+*.color0:       #5959af
+*.color8:       #333399
+
+! 2
+*.color1:       #7575c6
+*.color9:       #6666cc
+
+! 3 - Green 
+*.color2: 		#82ff80
+!	Name modifier
+*.color10:      #82ff80
+
+! 4 -
+*.color3:       #6be5cb
+
+*.color11:      #6be5cb
+
+
+! 5 -
+*.color4:       #72afff
+!FOLDERS
+*.color12:      #72afff
+
+
+! 6 - 
+*.color5:       #7cdcff
+*.color13:      #7cdcff
+
+! cyan
+*.color6:       #c7ff96
+*.color14:      #c7ff96
+
+! white (directory thing in username header)
+*.color7:       #cdffcc
+*.color15:      #cdffcc
+
+!*.font: xft:JetBrains Mono:style=Regular:size=13
+!*.boldFont: xft::JetBrains Mono:style=Bold:size=13
+!*.italicFont: xft::JetBrains Mono:style=Italic:size=13
+!*.boldItalicFont: xft::JetBrains Mono:style=Bold Italic:size=13
