@@ -63,7 +63,7 @@ check_for_updates() {
 
 install_packages() {
 
-	#check_for_updates
+	check_for_updates
 
 	echo "\nStart installation...\n"
 
@@ -71,7 +71,7 @@ install_packages() {
 	alacritty bspwm dbus dbus-devel dbus-libs dbus-x11 docker dunst elogind gcc htop neofetch libconfig \
 	libconfig-devel libconfig++ libconfig++-devel libev libev-devel libevdev libglvnd libglvnd-devel libX11 \
 	libX11-devel libxcb libxcb-devel libxdg-basedir pcre2 pixman uthash xcb-util-image xcb-util-renderutil \
-	pavucontrol polybar pulseaudio python3-pipx ranger rofi sxhkd xscreensaver \
+	pavucontrol polybar polkit pulseaudio python3-pipx ranger rofi sxhkd xscreensaver \
 
 	pipx ensurepath
 
