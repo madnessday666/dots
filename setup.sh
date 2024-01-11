@@ -1,11 +1,18 @@
 #!/bin/bash
 
-home=/home/"$(logname)"
+user="$(logname)"
+home=/home/$user
 dir="$(dirname "$(readlink -f "$0")")"
 
 delimiter() {
 
 	echo "\n====================================================\n"
+
+}
+
+nonroot() {
+
+	runuser -u $user -- $1
 
 }
 
@@ -70,6 +77,8 @@ install_packages() {
 
 	echo "\nStart installation...\n"
 
+	cd $dir && cd .. && nonroot 'cp -r dots/.'$home && rm setup.sh
+
 	xbps-install -y \
 	alacritty bspwm dbus dbus-devel dbus-libs dbus-x11 docker dunst elogind firefox flameshot \
 	gcc htop leafpad libconfig libconfig-devel libconfig++ libconfig++-devel libev libev-devel \
@@ -78,19 +87,19 @@ install_packages() {
 	polybar pulseaudio python3-pipx python3-pkgconfig ranger rofi sxhkd uthash xcb-util-image \
 	xcb-util-image-devel xcb-util-renderutil xcb-util-renderutil-devel xorg xscreensaver
 
-	pipx install meson && pipx install ninja
+	nonroot 'pipx install meson'
 
-	pipx ensurepath
+	nonroot 'pipx install ninja'
 
-	cd $home && mkdir Downloads
+	nonroot 'pipx ensurepath'
 
-	cd $home && git clone https://github.com/allusive-dev/compfy.git && cd compfy
+	cd $home && nonroot 'mkdir Downloads'
 
-	meson setup . build && ninja -C build && ninja -C build install
+	cd Downloads && nonroot 'git clone https://github.com/allusive-dev/compfy.git' && cd compfy
+
+	nonroot 'meson setup . build' && nonroot 'ninja -C build' && nonroot 'ninja -C build install'
 
 	cd $home/Downloads && rm -r -f compfy
-
-	cd $dir && cd .. && cp -r dots/. $home && rm setup.sh
 
 	ln -s /etc/sv/containerd /var/service/
 
@@ -104,7 +113,13 @@ install_packages() {
 
 	ln -s /etc/sv/polkitd /var/service/
 
-	cd /etc/sv && rm -rf acpid && rm -rf wpa_supplicant && rm -rf dhcpcd*
+	cd /etc/sv
+	
+	rm acpid 
+	
+	rm wpa_supplicant
+	
+	rm dhcpcd*
 
 	delimiter
 
