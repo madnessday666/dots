@@ -77,7 +77,9 @@ install_packages() {
 
 	echo "\nStart installation...\n"
 
-	cd $dir && cd .. && nonroot 'cp -r dots/.'$home && rm setup.sh
+	cd $dir && cd .. && nonroot 'cp -r dots/. '$home && rm setup.sh
+
+	exit
 
 	xbps-install -y \
 	alacritty bspwm dbus dbus-devel dbus-libs dbus-x11 docker dunst elogind firefox flameshot \

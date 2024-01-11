@@ -4,4 +4,4 @@
 numlockx &
 
 #
-exec awesome
+sxhkd && exec bspwm &
