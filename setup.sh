@@ -16,6 +16,42 @@ nonroot() {
 
 }
 
+check_env() {
+
+	e="$(sudo -Hiu $user env | grep ^PATH)"
+
+	case $e in
+
+		*$home/.local/bin*)
+
+		install_packages;
+
+		exit
+
+		;;
+
+	esac
+
+	delimiter
+
+	echo "An environment variable must be set to continue,\nyou must log in again and run the script \n[Press Enter to continue]"
+
+	delimiter
+
+	echo $e":"$home/.local/bin >> $home/.bashrc
+
+	echo $e":"$home/.local/bin >> $home/.profile
+
+	echo $e":"$home/.local/bin >> $home/.zshrc
+
+	read input
+
+	pid="$(who -u | awk '{print $6}')"
+
+	kill $pid
+
+}
+
 check_condition() {
 
 	while [ true ]; do
@@ -77,8 +113,6 @@ install_packages() {
 
 	echo "\nStart installation...\n"
 
-	cd $dir && tar -cf -  --exclude '.git' --exclude 'setup.sh' . | tar -xC $home
-
 	xbps-install -y \
 	alacritty bspwm dbus dbus-devel dbus-libs dbus-x11 docker dunst elogind firefox flameshot \
 	gcc htop leafpad libconfig libconfig-devel libconfig++ libconfig++-devel libev libev-devel \
@@ -100,6 +134,8 @@ install_packages() {
 	meson setup . build && ninja -C build && ninja -C build install
 
 	cd $home/Downloads && rm -r -f compfy
+
+	cd $dir && tar -cf -  --exclude '.git' --exclude 'setup.sh' . | tar -xC $home
 
 	ln -s /etc/sv/containerd /var/service/
 
@@ -137,11 +173,11 @@ init() {
 
 	delimiter
 
-	sleep 2
+	#sleep 2
 
 	echo "Do you want to continue? [y/N]:"
 
-	check_condition install_packages quit_installation
+	check_condition check_env quit_installation
 
 }
 
