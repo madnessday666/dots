@@ -77,9 +77,7 @@ install_packages() {
 
 	echo "\nStart installation...\n"
 
-	cd $dir && cd .. && nonroot 'cp -r dots/. '$home && rm setup.sh
-
-	exit
+	cd $dir && tar -cf -  --exclude '.git' --exclude 'setup.sh' . | tar -xC $home
 
 	xbps-install -y \
 	alacritty bspwm dbus dbus-devel dbus-libs dbus-x11 docker dunst elogind firefox flameshot \
@@ -99,7 +97,7 @@ install_packages() {
 
 	cd Downloads && nonroot 'git clone https://github.com/allusive-dev/compfy.git' && cd compfy
 
-	nonroot 'meson setup . build' && nonroot 'ninja -C build' && nonroot 'ninja -C build install'
+	meson setup . build && ninja -C build && ninja -C build install
 
 	cd $home/Downloads && rm -r -f compfy
 
@@ -116,12 +114,12 @@ install_packages() {
 	ln -s /etc/sv/polkitd /var/service/
 
 	cd /etc/sv
-	
-	rm acpid 
-	
-	rm wpa_supplicant
-	
-	rm dhcpcd*
+
+	rm -rf acpid
+
+	rm -rf wpa_supplicant
+
+	rm -rf dhcpcd*
 
 	delimiter
 

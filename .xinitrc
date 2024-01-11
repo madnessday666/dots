@@ -4,4 +4,5 @@
 numlockx &
 
 #
-sxhkd && exec bspwm &
+exec bspwm &
+sxhkd
