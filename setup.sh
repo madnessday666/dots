@@ -114,12 +114,13 @@ install_packages() {
 	echo "\nStart installation...\n"
 
 	xbps-install -y \
-	alacritty bspwm dbus dbus-devel dbus-libs dbus-x11 docker dunst elogind firefox flameshot \
-	gcc htop leafpad libconfig libconfig-devel libconfig++ libconfig++-devel libev libev-devel \
-	libevdev libglvnd libglvnd-devel libX11 libX11-devel libxcb libxcb-devel libxdg-basedir nano \
-	neofetch NetworkManager numlockx pavucontrol pcre2 pcre2-devel pixman pixman-devel polkit \
-	polybar pulseaudio python3-pipx python3-pkgconfig ranger rofi sxhkd uthash xcb-util-image \
-	xcb-util-image-devel xcb-util-renderutil xcb-util-renderutil-devel xorg xscreensaver
+	alacritty bspwm curl dbus dbus-devel dbus-libs dbus-x11 docker dunst elogind feh firefox \
+	flameshot gcc htop leafpad libconfig libconfig-devel libconfig++ libconfig++-devel libev \
+	libev-devel libevdev libglvnd libglvnd-devel libX11 libX11-devel libxcb libxcb-devel \
+	libxdg-basedir nano neofetch NetworkManager numlockx pavucontrol pcre2 pcre2-devel pixman \
+	pixman-devel polkit polybar pulseaudio python3-pipx python3-pkgconfig ranger rofi sxhkd unzip \
+	uthash xcb-util-image xcb-util-image-devel xcb-util-renderutil xcb-util-renderutil-devel \
+	xorg xscreensaver zsh
 
 	nonroot 'pipx install meson'
 
@@ -137,6 +138,12 @@ install_packages() {
 
 	cd $dir && tar -cf -  --exclude '.git' --exclude 'setup.sh' . | tar -xC $home
 
+	cd $home/.config/polybar && chmod +x launch.sh
+
+	nonroot 'git clone https://github.com/alexanderjeurissen/ranger_devicons '$home/.config/ranger/plugins/ranger_devicons
+
+	echo "default_linemode devicons" >> $home/.config/ranger/rc.conf
+
 	ln -s /etc/sv/containerd /var/service/
 
 	ln -s /etc/sv/dbus /var/service/
@@ -149,13 +156,19 @@ install_packages() {
 
 	ln -s /etc/sv/polkitd /var/service/
 
-	cd /etc/sv
+	cd /var/service
 
 	rm -rf acpid
 
 	rm -rf wpa_supplicant
 
 	rm -rf dhcpcd*
+
+	runuser -u $user -- bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)"
+
+	runuser -u $user -- bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+
+	chsh -s /bin/zsh $user
 
 	delimiter
 
