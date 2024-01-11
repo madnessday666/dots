@@ -1,18 +1,15 @@
 [global]
     font = JetBrains Mono 11
-#    allow_markup = yes
     format =  "<span font="JetBrains Mono Bold 12">%s</span>\n%b"
     sort = yes
     indicate_hidden = yes
     alignment = left
-#    bounce_freq = 0
     show_age_threshold = 60
     word_wrap = yes
     ignore_newline = no
     origin = top-right 
-    offset = 250x45
-    transparency = 30
-    ##transparency = 0
+    offset = 10x45
+    transparency = 40
     idle_threshold = 120
     monitor = 0
     follow = mouse
@@ -28,7 +25,7 @@
     frame_color = "#dfdfdf"
     separator_color = "#dfdfdf"
     frame_width = 1
-    corner_radius = 10
+    corner_radius = 12
 
 [urgency_low]
     background = "#000000"
@@ -44,33 +41,3 @@
     background = "#a8585d"
     foreground = "#dfdfdf"
     timeout = 15 s
-
-#[Messenger]
-#    appname = Discord Canary
-#    format = "<b>%s</b>\n%b"
-#    new_icon = Discord
-
-#[WMail]
-#    appname = Electron
-#    format = "<b>%s</b>\n%b"
-#    new_icon = WMail
-#    timeout = 2000
-
-#[NCMPCPP]
-#    appname = mpc
-#    format = "<b>Now Playing:</b>\n%s\n%b"
-    #format = "<b>%s</b>\n%b"
-#    new_icon = NCMPCPP
-#    timeout = 10
-
-#[Spotify]
-#    appname = Spotify
-#    format = "<b>Now Playing:</b>\n%s\n%b"
-#    new_icon = /usr/share/app-info/icons/pop-artful-extra/64x64/spotify.png
-#    timeout = 10
-
-#[Transmission]
-#    appname = Transmission
-#    format = "<b>%s</b>\n%b"
-#    new_icon = Transmission
-#    timeout = 2000

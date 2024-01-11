@@ -1,8 +1,16 @@
 #! /bin/sh
 
-bspc monitor -d I II III IV V
 
-#CONFIG
+#  $██████╗$██████╗$███╗$$$██╗███████╗██╗$██████╗$
+#  ██╔════╝██╔═══██╗████╗$$██║██╔════╝██║██╔════╝$
+#  ██║$$$$$██║$$$██║██╔██╗$██║█████╗$$██║██║$$███╗
+#  ██║$$$$$██║$$$██║██║╚██╗██║██╔══╝$$██║██║$$$██║
+#  ╚██████╗╚██████╔╝██║$╚████║██║$$$$$██║╚██████╔╝
+#  $╚═════╝$╚═════╝$╚═╝$$╚═══╝╚═╝$$$$$╚═╝$╚═════╝$
+#  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+
+bspc monitor -d I II III IV V
 
 bspc config border_width		0
 bspc config window_gap			10
@@ -10,12 +18,33 @@ bspc config split_ratio          	0.5
 bspc config borderless_monocle   	true
 bspc config gapless_monocle      	true
 bspc config focus_follows_pointer 	true
+bspc config pointer_action1 		move
+bspc config pointer_action2 		resize_side
+bspc config pointer_action2 		resize_corner
 
-#RULES
+
+#  ██████╗$██╗$$$██╗██╗$$$$$███████╗███████╗
+#  ██╔══██╗██║$$$██║██║$$$$$██╔════╝██╔════╝
+#  ██████╔╝██║$$$██║██║$$$$$█████╗$$███████╗
+#  ██╔══██╗██║$$$██║██║$$$$$██╔══╝$$╚════██║
+#  ██║$$██║╚██████╔╝███████╗███████╗███████║
+#  ╚═╝$$╚═╝$╚═════╝$╚══════╝╚══════╝╚══════╝
+#  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
 
 bspc rule -a Pavucontrol state=floating center=true
 
-#AUTOSTART
+
+#  $█████╗$██╗$$$██╗████████╗$██████╗$███████╗████████╗$█████╗$██████╗$████████╗
+#  ██╔══██╗██║$$$██║╚══██╔══╝██╔═══██╗██╔════╝╚══██╔══╝██╔══██╗██╔══██╗╚══██╔══╝
+#  ███████║██║$$$██║$$$██║$$$██║$$$██║███████╗$$$██║$$$███████║██████╔╝$$$██║$$$
+#  ██╔══██║██║$$$██║$$$██║$$$██║$$$██║╚════██║$$$██║$$$██╔══██║██╔══██╗$$$██║$$$
+#  ██║$$██║╚██████╔╝$$$██║$$$╚██████╔╝███████║$$$██║$$$██║$$██║██║$$██║$$$██║$$$
+#  ╚═╝$$╚═╝$╚═════╝$$$$╚═╝$$$$╚═════╝$╚══════╝$$$╚═╝$$$╚═╝$$╚═╝╚═╝$$╚═╝$$$╚═╝$$$
+#  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+
+pgrep -x sxhkd > /dev/null || sxhkd &
 
 bspwm -c $HOME/.config/bspwm/bspwmrc &
 
@@ -23,18 +52,16 @@ xsetroot -cursor_name left_ptr &
 
 dbus-launch dunst &
 
-pgrep -x sxhkd > /dev/null || sxhkd &
-
 setxkbmap -option grp:alt_shift_toggle ru,us &
 
 numlockx &
 
-feh --bg-scale .config/wallpapers/blue3.png &
+feh --bg-scale $HOME/.config/wallpapers/blue3.png &
 
-$HOME/.config/polybar/launch.sh &
+compfy --config=$HOME/.config/compfy/compfy.conf &
 
 sleep 0.05
 
-compfy --config=$HOME/.config/compfy/compfy.conf &
+$HOME/.config/polybar/launch.sh &
 
 xscreensaver --no-splash &

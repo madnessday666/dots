@@ -9,36 +9,13 @@
 #  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-env:
-  TERM: xterm-256color
-window:
-  opacity: 1.0
-  padding:
-    x: 14
-    y: 12
-  title: Alacritty
-  class:
-    instance: Alacritty
-    general: Alacritty
-scrolling:
-  history: 5000
-font:
-  normal:
-    family: JetBrains Mono
-    style: Light
-  bold:
-    family: JetBrains Mono
-    style: Regular
-  italic:
-    family:  JetBrains Mono
-    style: Italic
-  bold_italic:
-    family:  JetBrains Mono
-    style: Italic
-  size: 13.0
-  offset:
-    x: 1
-    y: 1
+set saveonexit
+
+set linenumbers
+
+#set linenumbers
+
+#set showcursor
 
 
 #  $██████╗$██████╗$██╗$$$$$$██████╗$██████╗$███████╗
@@ -50,25 +27,16 @@ font:
 #  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-colors:
-  primary:
-    background: '#1e1e23'
-    foreground: '#d3c6aa'
-  normal:
-    black:    '#475258'
-    red:      '#e67e80'
-    green:    '#a7c080'
-    yellow:   '#dbbc7f'
-    blue:     '#7fbbb3'
-    magenta:  '#d699b6'
-    cyan:     '#83c092'
-    white:    '#d3c6aa'
-  bright:
-    black:   '#475258'
-    red:      '#e67e80'
-    green:    '#a7c080'
-    yellow:   '#dbbc7f'
-    blue:     '#7fbbb3'
-    magenta:  '#d699b6'
-    cyan:     '#83c092'
-    white:    '#d3c6aa'
+set titlecolor bold,black,blue
+# set promptcolor lightwhite,grey
+# set statuscolor bold,white,green
+# set errorcolor bold,white,red
+# set spotlightcolor black,lightyellow
+# set selectedcolor lightwhite,magenta
+# set stripecolor ,yellow
+# set scrollercolor cyan
+set numbercolor black,blue
+# set keycolor cyan
+# set functioncolor green
+
+include "/usr/share/nano/*.nanorc"
