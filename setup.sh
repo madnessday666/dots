@@ -38,7 +38,7 @@ check_env() {
 
 	delimiter
 
-	echo $e":"$home/.local/bin >> $home/.bashrc
+	echo "\nexport $e:$home/.local/bin" >> $home/.bashrc
 
 	read input
 
@@ -48,7 +48,7 @@ check_env() {
 
 }
 
-create_dirs_and_move_files() {
+move_files() {
 
 	cd $home
 
@@ -82,6 +82,8 @@ service_setup() {
 
 	ln -s /etc/sv/polkitd /var/service/
 
+	ln -s /etc/sv/emptty /var/service/
+
 	cd /var/service
 
 	rm -rf acpid
@@ -89,6 +91,8 @@ service_setup() {
 	rm -rf wpa_supplicant
 
 	rm -rf dhcpcd*
+
+#	echo "\nanimate = true" >> /etc/ly/config.ini
 
 	groupadd power
 
@@ -171,27 +175,23 @@ install_packages() {
 
 	echo "\nStart installation...\n"
 
-	create_dirs_and_move_files
+	move_files
 
 	xbps-install -y \
-	alacritty bspwm curl dbus dbus-devel dbus-libs dbus-x11 docker dunst elogind feh firefox flameshot \
-	gcc htop leafpad libconfig libconfig-devel libconfig++ libconfig++-devel libev libev-devel libevdev \
-	libglvnd libglvnd-devel libX11 libX11-devel libxcb libxcb-devel libxdg-basedir make nano neofetch \
-	NetworkManager numlockx pavucontrol pcre2 pcre2-devel pixman pixman-devel polkit polybar pulseaudio \
-	python3-pipx python3-pkgconfig ranger rofi sxhkd unzip uthash xcb-util-image xcb-util-image-devel \
-	xcb-util-renderutil xcb-util-renderutil-devel xorg xscreensaver zsh
+	alacritty bspwm curl dbus dbus-devel dbus-libs dbus-x11 docker dunst elogind emptty feh firefox \
+	flameshot geany gcc htop libconfig libconfig-devel libconfig++ libconfig++-devel libev libev-devel \
+	libevdev libglvnd libglvnd-devel libX11 libX11-devel libxcb libxcb-devel libxdg-basedir make nano \
+	neofetch NetworkManager numlockx pavucontrol pcre2 pcre2-devel pixman pixman-devel polkit polybar \
+	pulseaudio python3-pipx python3-pkgconfig ranger rofi sxhkd unzip uthash xcb-util-image xcb-util-image-devel \
+	xcb-util-renderutil xcb-util-renderutil-devel xdotool xorg xscreensaver zsh
 
-	runuser -u $user -- bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)"
+	nonroot "curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh" | nonroot bash
 
-	runuser -u $user -- bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-
-	cd .oh-my-zsh/custom && nonroot 'git clone https://github.com/spaceship-prompt/spaceship-prompt.git'
-
-	ln -s $home/.oh-my-zsh/custom/spaceship-prompt/spaceship.zsh-theme $home/.oh-my-zsh/themes/spaceship.zsh-theme
-
-	echo "default_linemode devicons" >> $home/.config/ranger/rc.conf
+	nonroot "curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh" | nonroot bash --unattended
 
 	nonroot "git clone https://github.com/alexanderjeurissen/ranger_devicons $home/.config/ranger/plugins/ranger_devicons"
+
+	echo "default_linemode devicons" >> $home/.config/ranger/rc.conf
 
 	nonroot 'pipx install meson'
 
@@ -199,13 +199,15 @@ install_packages() {
 
 	nonroot 'pipx ensurepath'
 
-	cd $home/Downloads && nonroot 'git clone https://github.com/allusive-dev/compfy.git' && cd compfy
+	cd $home/Downloads
+
+	nonroot 'git clone https://github.com/allusive-dev/compfy.git'
+
+	cd $home/Downloads/compfy
 
 	meson setup . build && ninja -C build && ninja -C build install
 
 	cd $home/Downloads && rm -r -f compfy
-
-	cd $home/.config/polybar && chmod +x launch.sh
 
 	chsh -s /bin/zsh $user
 
@@ -227,7 +229,7 @@ init() {
 
 	delimiter
 
-	#sleep 2
+	sleep 3
 
 	echo "Do you want to continue? [y/N]:"
 
@@ -235,8 +237,6 @@ init() {
 
 }
 
-create_dirs_and_move_files
+init
 
 exit
-
-#init

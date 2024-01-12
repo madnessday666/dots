@@ -6,4 +6,4 @@
 alias ls='ls --color=auto'
 PS1='[\u@\h \W]\$ '
 
-export PATH="$PATH:/home/madnessday666/.local/bin"
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/bin:/home/madnessday666/.local/bin

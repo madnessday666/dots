@@ -52,16 +52,16 @@ xsetroot -cursor_name left_ptr &
 
 dbus-launch dunst &
 
-setxkbmap -option grp:alt_shift_toggle ru,us &
+setxkbmap -option grp:alt_shift_toggle us,ru &
 
 numlockx &
 
-feh --bg-scale $HOME/.config/wallpapers/blue3.png &
+feh --bg-scale $HOME/.config/wallpapers/wallpapers.png &
 
 compfy --config=$HOME/.config/compfy/compfy.conf &
 
-sleep 0.05
+xscreensaver --no-splash &
+
+sleep 0.5
 
 $HOME/.config/polybar/launch.sh &
-
-xscreensaver --no-splash &

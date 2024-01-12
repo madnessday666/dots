@@ -9,11 +9,9 @@
 #  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-set saveonexit
+#set saveonexit
 
 set linenumbers
-
-#set linenumbers
 
 #set showcursor
 
@@ -38,5 +36,17 @@ set titlecolor bold,black,blue
 set numbercolor black,blue
 # set keycolor cyan
 # set functioncolor green
+
+
+#  ██████╗$██╗███╗$$$██╗██████╗$███████╗
+#  ██╔══██╗██║████╗$$██║██╔══██╗██╔════╝
+#  ██████╔╝██║██╔██╗$██║██║$$██║███████╗
+#  ██╔══██╗██║██║╚██╗██║██║$$██║╚════██║
+#  ██████╔╝██║██║$╚████║██████╔╝███████║
+#  ╚═════╝$╚═╝╚═╝$$╚═══╝╚═════╝$╚══════╝
+#  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+
+bind ^z suspend	main
 
 include "/usr/share/nano/*.nanorc"

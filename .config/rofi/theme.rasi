@@ -18,25 +18,25 @@ configuration {
 	background-color:		@transparent;
 	text-color:			@foreground;
 	selected-normal-foreground:	@foreground-selection;
-	normal-foreground:       	@foreground;
+	normal-foreground:		@foreground;
 	alternate-normal-background:	@transparent;
-	selected-urgent-foreground:  	@foreground;
-	urgent-foreground:           	@foreground;
-	alternate-urgent-background: 	@background;
-	active-foreground:           	@accent;
-	selected-active-foreground:  	@background-selection;
-	alternate-normal-foreground: 	@foreground;
-	alternate-active-background: 	@background;
-	bordercolor:                 	@background;
-	normal-background:           	@transparent;
-	selected-normal-background:  	@background-selection;
-	separatorcolor:              	@accent;
-	urgent-background:           	@accent;
-	alternate-urgent-foreground: 	@foreground;
-	selected-urgent-background:  	@accent;
-	alternate-active-foreground: 	@foreground;
-	selected-active-background:  	@transparent;
-	active-background:           	@transparent;
+	selected-urgent-foreground:	@foreground;
+	urgent-foreground:		@foreground;
+	alternate-urgent-background:	@background;
+	active-foreground:		@accent;
+	selected-active-foreground:	@background-selection;
+	alternate-normal-foreground:	@foreground;
+	alternate-active-background:	@background;
+	bordercolor:			@background;
+	normal-background:		@transparent;
+	selected-normal-background:	@background-selection;
+	separatorcolor:			@accent;
+	urgent-background:		@accent;
+	alternate-urgent-foreground:	@foreground;
+	selected-urgent-background:	@accent;
+	alternate-active-foreground:	@foreground;
+	selected-active-background:	@transparent;
+	active-background:		@transparent;
 }
 window {
         transparency:                   "real";
@@ -47,16 +47,16 @@ window {
         border-radius:                  10px 10px 10px 10px;
         width:                          400px;
 	height:				250px;
-        location:                       northwest;
+/*        location:                       northwest;
         x-offset:                       10;
-        y-offset:                       45;
+        y-offset:                       45;*/
 }
 mainbox {
 	border:		0;
 	padding:	10px;
 }
 textbox {
-	text-color: 	@foreground;
+	text-color:	@foreground;
 }
 listview {
 	padding:		5px;
@@ -122,7 +122,7 @@ button selected {
 	background-color:		@selected-normal-background;
 }
 button normal {
-	text-color:	@foreground;
+	text-color:			@foreground;
 }
 inputbar {
 	children: [textbox-prompt-colon,entry];

@@ -8,3 +8,4 @@ xdotool windowfocus --sync "${TMP_WINDOW_ID}"
 sleep 0.05
 # run flameshot in gui mode in the desired coordinates
 flameshot gui --region "${WIDTH}x${HEIGHT}+${X}+${Y}" -p "${HOME}/Screenshots"
+exit
