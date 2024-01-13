@@ -15,6 +15,7 @@ ZSH_THEME="dst"
 
 plugins=(git)
 
+source .bashrc
 source $ZSH/oh-my-zsh.sh
 
-export PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/bin:/home/madnessday666/.local/bin
+alias idea="nohup $HOME/Intellij-Idea/bin/idea.sh"

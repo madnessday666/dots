@@ -4,11 +4,13 @@ user="$(logname)"
 home=/home/$user
 dir="$(dirname "$(readlink -f "$0")")"
 
-delimiter() {
+#Print dm
+dm() {
 	echo "\n====================================================\n"
 }
 
-nonroot() {
+#Run as non root user
+nr() {
 	runuser -u $user -- $1
 }
 
@@ -16,31 +18,41 @@ check_env() {
 	e="$(sudo -Hiu $user env | grep ^PATH)"
 	case $e in
 		*$home/.local/bin*)
-		install_packages;;
+		install_packages;
+		exit;;
 	esac
-	delimiter
-	echo "An environment variable must be set to continue,\nyou must log in again and run the script \n[Press Enter to continue]"
-	delimiter
+	dm
+	echo "\nAn environment variable must be set to continue,\nyou must log in again and run the script \n[Press Enter to continue]"
+	dm
 	read input
-	echo "\nexport $e:$home/.local/bin" >> $home/.bashrc
+	if [ ! -f $home/.bashrc ]; then
+		nr "echo -e \
+		#!/bin/bash\n\nexport $e:$home/.local/bin" \
+		| nr "tee -a $home/.bashrc"
+    else
+		nr "echo -e \
+		\nexport $e:$home/.local/bin" \
+		| nr "tee -a $home/.bashrc"
+	fi
 	pid="$(who -u | awk '{print $6}')"
 	kill $pid
 }
 
 move_files() {
 	cd $home
-	nonroot 'mkdir Downloads'
-	nonroot 'mkdir Screenshots'
-	nonroot "mkdir -p $home/.local/share/fonts"
+	nr 'mkdir Downloads'
+	nr 'mkdir Screenshots'
+	nr "mkdir -p $home/.local/share/fonts"
 	cd $dir
-	nonroot "cp -r fonts/. $home/.local/share/fonts"
-	nonroot "cp -r settings/user/. $home" && cp -r settings/dm/. /etc/lightdm/
-	nonroot "cp -r .config $home" && cp .config/wallpapers/wallpapers.png /etc/lightdm/
+	nr "cp -r fonts/. $home/.local/share/fonts"
+	nr "cp -r settings/user/. $home" && cp -r settings/dm/. /etc/lightdm/
+	nr "cp -r .config $home" && cp .config/wallpapers/wallpapers.png /etc/lightdm/
 }
 
 service_setup() {
-	delimiter
-	echo "Setup services..."
+	dm
+	echo "Setup services...\n"
+	sleep 1
 	ln -s /etc/sv/containerd /var/service/
 	ln -s /etc/sv/dbus /var/service/
 	ln -s /etc/sv/docker /var/service/
@@ -74,8 +86,8 @@ service_setup() {
  	chsh -s /bin/zsh $user
 
  	echo "\nService setup completed!"
- 	delimiter
-	sleep 1
+ 	dm
+	sleep 2
 }
 
 check_condition() {
@@ -92,34 +104,34 @@ check_condition() {
 }
 
 quit_installation() {
-	delimiter
-	echo "\nQuit installation...\n"
-	delimiter
-	sleep 1
+	dm
+	echo "Quit installation..."
+	dm
 	exit
 }
 
 reboot_system() {
-	delimiter
-	echo "\nReboot in progress...\n"
-	delimiter
-	sleep 1
+	dm
+	echo "Reboot in progress..."
+	dm
+	sleep 2
 	reboot
 }
 
 check_for_updates() {
-	delimiter
-	echo "\nCheck for updates...\n"
+	dm
+	echo "Check for updates...\n"
 	sleep 1
 	xbps-install -Syu
 	echo "\nSystem files updated"
-	delimiter
+	dm
+	sleep 2
 }
 
 install_packages() {
 	check_for_updates
-	delimiter
-	echo "\nStart installation...\n"
+	echo "Start installation...\n"
+	sleep 2
 	move_files
 
 	xbps-install -y \
@@ -131,16 +143,15 @@ install_packages() {
 	unzip uthash xcb-util-image xcb-util-image-devel xcb-util-renderutil xcb-util-renderutil-devel \
 	xdotool xorg xscreensaver zsh
 
-	nonroot 'pipx install meson'
-	nonroot 'pipx install ninja'
-	nonroot 'pipx ensurepath'
-	nonroot "curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh" | nonroot bash
-	nonroot "curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh" | nonroot bash --unattended
-	nonroot "git clone https://github.com/alexanderjeurissen/ranger_devicons $home/.config/ranger/plugins/ranger_devicons"
-	echo "default_linemode devicons" >> $home/.config/ranger/rc.conf
+	nr 'pipx install meson'
+	nr 'pipx install ninja'
+	nr 'pipx ensurepath'
+	nr "curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh" | nr bash
+	nr "curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh" | nr bash --unattended
+	nr "git clone https://github.com/alexanderjeurissen/ranger_devicons $home/.config/ranger/plugins/ranger_devicons"
+	nr "echo default_linemode devicons" | nr "$home/.config/ranger/rc.conf"
+	nr "git clone https://github.com/allusive-dev/compfy.git $home/Downloads/compfy"
 
-	cd $home/Downloads
-	nonroot 'git clone https://github.com/allusive-dev/compfy.git'
 	cd $home/Downloads/compfy
 	meson setup . build && ninja -C build && ninja -C build install
 	cd $home/Downloads && rm -r -f compfy
@@ -152,10 +163,10 @@ install_packages() {
 }
 
 init() {
-	delimiter
-	echo "\nSetup script v1.0 for Void Linux\n"
-	delimiter
-	sleep 3
+	dm
+	echo "Setup script v1.0 for Void Linux"
+	dm
+	sleep 2
 	echo "Do you want to continue? [y/N]:"
 	check_condition check_env quit_installation
 }
