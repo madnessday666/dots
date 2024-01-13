@@ -39,10 +39,6 @@ check_env() {
 }
 
 move_files() {
-	cd $home
-	nr 'mkdir Downloads'
-	nr 'mkdir Screenshots'
-	nr "mkdir -p $home/.local/share/fonts"
 	cd $dir
 	nr "cp -r fonts/. $home/.local/share/fonts"
 	nr "cp -r settings/user/. $home" && cp -r settings/dm/. /etc/lightdm/
@@ -68,7 +64,6 @@ service_setup() {
 
 	groupadd power
 	usermod -aG power $user
-	echo "\nsudo dmesg -n 1" | tee -a /etc/rc.local
 	echo '\npolkit.addRule(function(action, subject) {
 	if ((action.id == "org.freedesktop.login1.reboot" ||
           	action.id == "org.freedesktop.login1.reboot-multiple-sessions" ||
@@ -132,24 +127,29 @@ install_packages() {
 	check_for_updates
 	echo "Start installation...\n"
 	sleep 2
-	move_files
 
 	xbps-install -y \
-	alacritty bspwm curl dbus dbus-devel dbus-libs dbus-x11 docker dunst elogind feh ffmpeg firefox \
-	flameshot geany gcc htop libconfig libconfig-devel libconfig++ libconfig++-devel libev libev-devel \
-	libevdev libglvnd libglvnd-devel libX11 libX11-devel libxcb libxcb-devel libxdg-basedir lightdm \
-	lightdm-gtk3-greeter make nano neofetch NetworkManager numlockx pavucontrol pcre2 pcre2-devel \
-	pixman pixman-devel polkit polybar pulseaudiopython3-pipx python3-pkgconfig ranger rofi sxhkd \
-	unzip uthash xcb-util-image xcb-util-image-devel xcb-util-renderutil xcb-util-renderutil-devel \
-	xdotool xorg xscreensaver zsh
+	alacritty bspwm curl dbus dbus-devel dbus-libs dbus-x11 docker dunst elogind feh ffmpeg \
+	firefox flameshot font-awesome6 geany gcc htop libconfig libconfig-devel libconfig++ \
+	libconfig++-devel libev libev-devel libevdev libglvnd libglvnd-devel libX11 libX11-devel \
+	libxcb libxcb-devel libxdg-basedir lightdm lightdm-gtk3-greeter make nano neofetch \
+	NetworkManager numlockx pavucontrol pcre2 pcre2-devel pixman pixman-devel polkit polybar \
+	pulseaudio python3-pipx python3-pkgconfig ranger rofi sxhkd unzip uthash xcb-util-image \
+	xcb-util-image-devel xcb-util-renderutil xcb-util-renderutil-devel xdotool xorg xscreensaver \
+	zsh
 
+	cd $home
+	nr 'mkdir Downloads'
+	nr 'mkdir Screenshots'
+	nr "mkdir -p $home/.local/share/fonts"
 	nr 'pipx install meson'
 	nr 'pipx install ninja'
 	nr 'pipx ensurepath'
 	nr "curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh" | nr bash
 	nr "curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh" | nr bash --unattended
+	move_files
 	nr "git clone https://github.com/alexanderjeurissen/ranger_devicons $home/.config/ranger/plugins/ranger_devicons"
-	nr "echo default_linemode devicons" | nr "$home/.config/ranger/rc.conf"
+	nr "echo default_linemode devicons" | nr "tee -a $home/.config/ranger/rc.conf"
 	nr "git clone https://github.com/allusive-dev/compfy.git $home/Downloads/compfy"
 
 	cd $home/Downloads/compfy
