@@ -54,6 +54,8 @@ dbus-launch dunst &
 
 setxkbmap -option grp:alt_shift_toggle us,ru &
 
+xset r rate 250 50
+
 numlockx &
 
 feh --bg-scale $HOME/.config/wallpapers/wallpapers.png &
