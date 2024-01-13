@@ -29,7 +29,7 @@ check_env() {
 		nr "echo -e \
 		#!/bin/bash\n\nexport $e:$home/.local/bin" \
 		| nr "tee -a $home/.bashrc"
-    else
+    	else
 		nr "echo -e \
 		\nexport $e:$home/.local/bin" \
 		| nr "tee -a $home/.bashrc"
