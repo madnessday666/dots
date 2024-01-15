@@ -52,7 +52,7 @@ xsetroot -cursor_name left_ptr &
 
 dbus-launch dunst &
 
-xrandr --output DisplayPort-0 --mode 1920x1080 --rate 165
+#xrandr --output DisplayPort-0 --mode 1920x1080 --rate 165
 
 setxkbmap -option grp:alt_shift_toggle us,ru &
 
