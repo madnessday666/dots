@@ -26,6 +26,7 @@
     separator_color = "#dfdfdf"
     frame_width = 1
     corner_radius = 12
+	width = (1,400)
 
 [urgency_low]
     background = "#000000"

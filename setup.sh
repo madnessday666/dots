@@ -157,7 +157,7 @@ install_packages() {
 
 	cd $home/Downloads/compfy && meson setup . build && ninja -C build && ninja -C build install
 	cd $home/Downloads/screencast && nr make && make install
-	rm -r -f $home/Downloads{compfy,screencast}
+	rm -r -f $home/Downloads/{compfy,screencast}
 
 	service_setup
 

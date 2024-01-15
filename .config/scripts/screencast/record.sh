@@ -9,13 +9,11 @@ STATUS="$(cat $DIR/status)"
 ROFI_THEME=
 ROFI_MENU="rofi -dmenu -i -no-custom"
 
-pre_check() {
+is_recording() {
 	if [ $STATUS = 'record' ]; then
         cd $DIR && echo 'q' > stop && rm stop
 		sed -i 's/.*/render/' status
 		exit
-    elif [ $STATUS = 'idle' ] || [ $STATUS = 'render' ];then
-		sed -i 's/.*/record/' $DIR/status
 	fi
 }
 
@@ -27,7 +25,7 @@ init() {
 }
 
 select_area() {
-	dimension="$(echo "$(printf "Fullscreen\nArea")" | $ROFI_MENU -mesg "Select area")"
+	dimension="$(echo "$(printf "Fullscreen\nArea\nCancel")" | $ROFI_MENU -mesg "Select area")"
 	if [ $dimension = "Fullscreen" ]; then
 		area="$(xrandr --query --listactivemonitors \
 							| grep ' connected ' \
@@ -35,7 +33,7 @@ select_area() {
 							| cut -d ' ' -f2)"
 		SIZE=$(sed 's/\(\(+\|\-\)[[:digit:]]\+\(+\|-\)[[:digit:]]\+\)//g' <<< "$area")
 		POSITION=$(sed 's/\(^[[:digit:]]\+x[[:digit:]]\+\)//g;s/+//1;s/+/,/1' <<< "$area")
-	else
+	elif [ $dimension = "Area" ]; then
 		area="$(echo "$(slop)")"
 		confirm="$(echo "$(printf "Yes\nNo")" | $ROFI_MENU -mesg "Сonfirm selected area? > $area")"
 			if [ $confirm = "Yes" ]; then
@@ -44,6 +42,8 @@ select_area() {
 			else
 				select_area
 			fi
+	else
+		exit
 	fi
 }
 
@@ -69,9 +69,13 @@ fix_area() {
 }
 
 with_audio() {
-	audio="$(echo "$(printf "Yes\nNo")" | $ROFI_MENU -mesg "Record input audio?")"
+	audio="$(echo "$(printf "No\nYes\nCancel")" | $ROFI_MENU -mesg "Record input audio?")"
 	if [ $audio = "Yes" ]; then
 		select_audio_input
+	elif [ $audio = "No" ]; then
+		:
+	else
+		exit
 	fi
 }
 
@@ -86,16 +90,20 @@ select_audio_input() {
 }
 
 select_framerate() {
-	FRAMERATE="$(echo "$(printf "30\n60")" | $ROFI_MENU -mesg "Select frame rate")"
+	FRAMERATE="$(echo "$(printf "60\n30\nCancel")" | $ROFI_MENU -mesg "Select frame rate")"
+	if [ $FRAMERATE != 60 ] && [ $FRAMERATE != 30 ]; then
+		exit
+	fi
 }
 
 start_record() {
+	sed -i 's/.*/record/' $DIR/status
 	cd $DIR && touch stop
-	<stop screencast -i $AUDIO_DEVICE -u -s $SIZE -p $POSITION -r $FRAMERATE -o $HOME/Screenrecs >/dev/null 2>> capture.log &
+	<stop screencast -n -i $AUDIO_DEVICE -u -s $SIZE -p $POSITION -r $FRAMERATE -o $HOME/Screenrecs >/dev/null 2>> capture.log &
 }
 
 run() {
-	pre_check
+	is_recording
 	init
 	select_area
 	fix_area

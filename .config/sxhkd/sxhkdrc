@@ -28,13 +28,9 @@ super + shift + w
 super + shift + f
 	sh ~/.config/scripts/flameshot/screenshot_fullscreen.sh
 
-#start screen record
-super +shift + r
-	bash ~/.config/scripts/screencast/start.sh
-
-#stop screen record
-super +shift + e
-	bash ~/.config/scripts/screencast/stop.sh
+#start/stop screen record
+super + shift + r
+	bash ~/.config/scripts/screencast/record.sh
 
 # program launcher
 super + d
