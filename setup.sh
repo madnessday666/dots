@@ -25,7 +25,8 @@ check_env() {
 	echo "\nAn environment variable must be set to continue,\nyou must log in again and run the script \n[Press Enter to continue]"
 	dm
 	read input
-	if [ ! -f $home/.bashrc ]; then
+	if [ ! -f $home/.bashrc ];
+	then
 		nr "echo -e \
 		#!/bin/bash\n\nexport $e:$home/.local/bin" \
 		| nr "tee -a $home/.bashrc"
@@ -129,19 +130,19 @@ install_packages() {
 	sleep 2
 
 	xbps-install -y \
-	alacritty bspwm curl dbus dbus-devel dbus-libs dbus-x11 docker dunst elogind feh ffmpeg \
-	firefox flameshot font-awesome6 geany gcc htop libconfig libconfig-devel libconfig++ \
+	alacritty bspwm curl dbus dbus-devel dbus-libs dbus-x11 docker docker-compose dunst elogind \
+	feh ffmpeg firefox flameshot font-awesome6 geany gcc htop libconfig libconfig-devel libconfig++ \
 	libconfig++-devel libev libev-devel libevdev libglvnd libglvnd-devel libX11 libX11-devel \
-	libxcb libxcb-devel libxdg-basedir lightdm lightdm-gtk3-greeter make nano neofetch \
+	libxcb libxcb-devel libxdg-basedir lightdm lightdm-gtk3-greeter make mpv nano neofetch \
 	NetworkManager numlockx pavucontrol pcre2 pcre2-devel pixman pixman-devel polkit polybar \
-	pulseaudio python3-pipx python3-pkgconfig ranger rofi sxhkd unzip uthash xcb-util-image \
+	pulseaudio python3-pipx python3-pkgconfig ranger rofi slop sxhkd unzip uthash xcb-util-image \
 	xcb-util-image-devel xcb-util-renderutil xcb-util-renderutil-devel xdotool xorg xscreensaver \
 	zsh
 
 	cd $home
 	nr 'mkdir Downloads'
 	nr 'mkdir Screenshots'
-	nr "mkdir -p $home/.local/share/fonts"
+	nr 'mkdir Screenrecs'
 	nr 'pipx install meson'
 	nr 'pipx install ninja'
 	nr 'pipx ensurepath'

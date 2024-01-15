@@ -28,6 +28,14 @@ super + shift + w
 super + shift + f
 	sh ~/.config/scripts/flameshot/screenshot_fullscreen.sh
 
+#start screen record
+super +shift + r
+	bash ~/.config/scripts/screencast/start.sh
+
+#stop screen record
+super +shift + e
+	bash ~/.config/scripts/screencast/stop.sh
+
 # program launcher
 super + d
 	rofi -no-lazy-grab -show drun -modi drun -theme ~/.config/rofi/theme.rasi -show -location 1 -xoffset 10 -yoffset 40

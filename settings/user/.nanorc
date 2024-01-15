@@ -10,10 +10,9 @@
 
 
 #set saveonexit
-
-set linenumbers
-
 #set showcursor
+set linenumbers
+set tabsize 4
 
 
 #  $██████╗$██████╗$██╗$$$$$$██████╗$██████╗$███████╗
