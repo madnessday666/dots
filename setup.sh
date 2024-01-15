@@ -4,7 +4,7 @@ user="$(logname)"
 home=/home/$user
 dir="$(dirname "$(readlink -f "$0")")"
 
-#Print dm
+#Print delimiter
 dm() {
 	echo "\n====================================================\n"
 }
@@ -50,6 +50,7 @@ service_setup() {
 	dm
 	echo "Setup services...\n"
 	sleep 1
+
 	ln -s /etc/sv/containerd /var/service/
 	ln -s /etc/sv/dbus /var/service/
 	ln -s /etc/sv/docker /var/service/
@@ -148,14 +149,15 @@ install_packages() {
 	nr 'pipx ensurepath'
 	nr "curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh" | nr bash
 	nr "curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh" | nr bash --unattended
+	nr "git clone https://github.com/allusive-dev/compfy.git $home/Downloads/compfy"
+	nr "git clone https://github.com/damiante/screencast.git $home/Downloads/screencast"
 	move_files
 	nr "git clone https://github.com/alexanderjeurissen/ranger_devicons $home/.config/ranger/plugins/ranger_devicons"
 	nr "echo default_linemode devicons" | nr "tee -a $home/.config/ranger/rc.conf"
-	nr "git clone https://github.com/allusive-dev/compfy.git $home/Downloads/compfy"
 
-	cd $home/Downloads/compfy
-	meson setup . build && ninja -C build && ninja -C build install
-	cd $home/Downloads && rm -r -f compfy
+	cd $home/Downloads/compfy && meson setup . build && ninja -C build && ninja -C build install
+	cd $home/Downloads/screencast && nr make && make install
+	rm -r -f $home/Downloads{compfy,screencast}
 
 	service_setup
 

@@ -5,12 +5,24 @@ DIR="$(dirname "$(readlink -f "$0")")"
 FRAMERATE=
 POSITION=
 SIZE=
-ROFI_MENU="rofi -dmenu -i -no-custom $ROFI_THEME"
+STATUS="$(cat $DIR/status)"
 ROFI_THEME=
+ROFI_MENU="rofi -dmenu -i -no-custom"
 
-fix_theme() {
+pre_check() {
+	if [ $STATUS = 'record' ]; then
+        cd $DIR && echo 'q' > stop && rm stop
+		sed -i 's/.*/render/' status
+		exit
+    elif [ $STATUS = 'idle' ] || [ $STATUS = 'render' ];then
+		sed -i 's/.*/record/' $DIR/status
+	fi
+}
+
+init() {
 	if [ -f $HOME/.config/rofi/theme.rasi ]; then
 		ROFI_THEME="-theme $HOME/.config/rofi/theme.rasi"
+		ROFI_MENU="rofi -dmenu -i -no-custom $ROFI_THEME"
 	fi
 }
 
@@ -83,7 +95,8 @@ start_record() {
 }
 
 run() {
-	fix_theme
+	pre_check
+	init
 	select_area
 	fix_area
 	with_audio
