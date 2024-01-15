@@ -8,7 +8,7 @@ SIZE=
 ROFI_MENU="rofi -dmenu -i -no-custom $ROFI_THEME"
 ROFI_THEME=
 
-fix_theme() {
+init() {
 	if [ -f $HOME/.config/rofi/theme.rasi ]; then
 		ROFI_THEME="-theme $HOME/.config/rofi/theme.rasi"
 	fi
@@ -83,7 +83,7 @@ start_record() {
 }
 
 run() {
-	fix_theme
+	init
 	select_area
 	fix_area
 	with_audio
