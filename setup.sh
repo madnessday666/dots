@@ -41,9 +41,11 @@ check_env() {
 
 move_files() {
 	cd $dir
+	nr "cp -r .config $home"
 	nr "cp -r fonts/. $home/.local/share/fonts"
-	nr "cp -r settings/user/. $home" && cp -r settings/dm/. /etc/lightdm/
-	nr "cp -r .config $home" && cp .config/wallpapers/wallpapers.png /etc/lightdm/
+	nr "cp -r settings/user/. $home"
+	nr "cp -r settings/zsh/. $home/.oh-my-zsh/themes"
+	cp .config/wallpapers/wallpapers.png /etc/lightdm/ && cp -r settings/dm/. /etc/lightdm/
 }
 
 service_setup() {
