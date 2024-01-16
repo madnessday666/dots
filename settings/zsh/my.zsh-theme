@@ -49,7 +49,7 @@ git_time_since_commit() {
     fi
 }
 
-prompt_git() {
+git_prompt() {
 #«»±˖˗‑‐‒ ━ ✚‐↔←↑↓→↭⇎⇔⋆━◂▸◄►◆☀★☗☊✔✖❮❯⚑⚙
   local PL_BRANCH_CHAR
   () {
@@ -142,9 +142,9 @@ prompt_git() {
     if [[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]]; then has_diverged=true; fi
     if [[ $has_diverged == false && $commits_ahead -gt 0 ]]; then
       if [[ $bgclr == 'red' || $bgclr == 'magenta' ]] then
-        to_push=" $fg_bold[white]↑$commits_ahead$fg_bold[$fgclr]"
+        to_push=" $fg_bold[cyan]↑$commits_ahead$fg_bold[$fgclr]"
       else
-        to_push=" $fg_bold[black]↑$commits_ahead$fg_bold[$fgclr]"
+        to_push=" $fg_bold[cyan]↑$commits_ahead$fg_bold[$fgclr]"
       fi
     fi
     if [[ $has_diverged == false && $commits_behind -gt 0 ]]; then to_pull=" $fg_bold[magenta]↓$commits_behind$fg_bold[$fgclr]"; fi
@@ -162,5 +162,5 @@ prompt_git() {
 }
 
 PROMPT='%(?, ,%{$fg[red]%}FAIL%{$reset_color%})
-┌─[%F{blue}%~%f] [%F{green}%D{%H:%m:%S}%f]$(prompt_git)$(git_time_since_commit)
+┌─[%F{blue}%~%f] [%F{green}%D{%H:%m:%S}%f]$(git_prompt)$(git_time_since_commit)
 └─▶ '
