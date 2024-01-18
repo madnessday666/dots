@@ -10,10 +10,21 @@
 #  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-bspc monitor -d I II III IV V
+if [ $(xrandr --query | grep -w 'connected' | wc -l) > 1 ]; then
+	xrandr --output DisplayPort-0 --set TearFree on
+	xrandr --output DisplayPort-1 --set TearFree off
+	xrandr --output DisplayPort-0 --mode 1920x1080 --pos 0x0 --right-of DisplayPort-1 --rate 144 --primary
+	xrandr --output DisplayPort-1 --scale 1.2x1.2 --pos -568x0 --rotate left
+	bspc monitor DisplayPort-0 -d 1 2 3 4 5
+	bspc monitor DisplayPort-1 -d 6 7 8 9 10
+	bspc wm -O DisplayPort-0 DisplayPort-1
+else
+	xrandr --output DisplayPort-0 --mode 1920x1080 --rate 144 --rotate normal --primary
+	bspc monitor DisplayPort-0 -d 1 2 3 4 5
+fi
 
-bspc config border_width		0
-bspc config window_gap			10
+bspc config border_width			0
+bspc config window_gap				10
 bspc config split_ratio          	0.5
 bspc config borderless_monocle   	true
 bspc config gapless_monocle      	true
@@ -52,11 +63,9 @@ xsetroot -cursor_name left_ptr &
 
 dbus-launch dunst &
 
-#xrandr --output DisplayPort-0 --mode 1920x1080 --rate 165
-
 setxkbmap -option grp:alt_shift_toggle us,ru &
 
-xset r rate 250 50
+xset r rate 250 50 &
 
 numlockx &
 

@@ -18,4 +18,4 @@ plugins=(git)
 source .bashrc
 source $ZSH/oh-my-zsh.sh
 
-alias idea="nohup $HOME/Intellij-Idea/bin/idea.sh"
+alias idea="nohup $HOME/Intellij-Idea/bin/idea.sh & disown && exit"

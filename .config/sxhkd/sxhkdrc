@@ -68,6 +68,10 @@ super + m
 super + {t,shift + t,s,f}
 	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
 
+#set fakefullscreen
+super + v
+	bash ~/.config/scripts/bspwm/fakefullscreen.sh
+
 # set the node flags
 super + ctrl + {m,x,y,z}
 	bspc node -g {marked,locked,sticky,private}
