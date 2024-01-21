@@ -162,5 +162,5 @@ git_prompt() {
 }
 
 PROMPT='%(?, ,%{$fg[red]%}FAIL%{$reset_color%})
-┌─[%F{blue}%~%f] [%F{green}%D{%H:%m:%S}%f]$(git_prompt)$(git_time_since_commit)
+┌─[%F{blue}%~%f] [%F{green}%D{%H:%M:%S}%f]$(git_prompt)$(git_time_since_commit)
 └─▶ '

@@ -10,7 +10,7 @@
 #  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-if [ $(xrandr --query | grep -w 'connected' | wc -l) > 1 ]; then
+if [ $(xrandr --query | grep -w 'connected' | wc -l) -gt 1 ]; then
 	xrandr --output DisplayPort-0 --set TearFree on
 	xrandr --output DisplayPort-1 --set TearFree off
 	xrandr --output DisplayPort-0 --mode 1920x1080 --pos 0x0 --right-of DisplayPort-1 --rate 144 --primary

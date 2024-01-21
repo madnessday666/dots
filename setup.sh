@@ -16,17 +16,19 @@ nr() {
 
 check_env() {
 	e="$(sudo -Hiu $user env | grep ^PATH)"
+
 	case $e in
 		*$home/.local/bin*)
 		install_packages;
 		exit;;
 	esac
+
 	dm
 	echo "\nAn environment variable must be set to continue,\nyou must log in again and run the script \n[Press Enter to continue]"
 	dm
+
 	read input
-	if [ ! -f $home/.bashrc ];
-	then
+	if [ ! -f $home/.bashrc ]; then
 		nr "echo -e \
 		#!/bin/bash\n\nexport $e:$home/.local/bin" \
 		| nr "tee -a $home/.bashrc"
@@ -143,23 +145,20 @@ install_packages() {
 	zsh
 
 	cd $home
-	nr 'mkdir Downloads'
-	nr 'mkdir Screenshots'
-	nr 'mkdir Screenrecs'
-	nr 'pipx install meson'
-	nr 'pipx install ninja'
-	nr 'pipx ensurepath'
+	nr "mkdir Downloads"
+	nr "mkdir Screenshots"
+	nr "mkdir Screenrecs"
+	nr "pipx install meson"
+	nr "pipx install ninja"
+	nr "pipx ensurepath"
 	nr "curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh" | nr bash
 	nr "curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh" | nr bash --unattended
 	nr "git clone https://github.com/allusive-dev/compfy.git $home/Downloads/compfy"
-	nr "git clone https://github.com/damiante/screencast.git $home/Downloads/screencast"
 	move_files
 	nr "git clone https://github.com/alexanderjeurissen/ranger_devicons $home/.config/ranger/plugins/ranger_devicons"
 	nr "echo default_linemode devicons" | nr "tee -a $home/.config/ranger/rc.conf"
 
-	cd $home/Downloads/compfy && meson setup . build && ninja -C build && ninja -C build install
-	cd $home/Downloads/screencast && nr make && make install
-	rm -r -f $home/Downloads/{compfy,screencast}
+	cd $home/Downloads/compfy && meson setup . build && ninja -C build && ninja -C build install && rm -r -f $home/Downloads/compfy
 
 	service_setup
 

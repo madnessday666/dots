@@ -1,26 +1,41 @@
 #!/bin/bash
 
-AUDIO_DEVICE="none"
+
+AUDIO_DEVICE=
+AUDIO_SETTINGS=
 DIR="$(dirname "$(readlink -f "$0")")"
+CACHE="$HOME/.cache/recs"
+COLOR_RANGE=2
+INPUT="0.0"
+FILENAME="$(date +"%Y-%m-%d_%H:%M:%S")"
 FRAMERATE=
+PIXEL_FORMAT="yuv420p"
 POSITION=
+SAVEDIR="$HOME/Screenrecs"
 SIZE=
 STATUS="$(cat $DIR/status)"
 ROFI_THEME=
 ROFI_MENU="rofi -dmenu -i -no-custom"
-
-is_recording() {
-	if [ $STATUS = 'record' ]; then
-        cd $DIR && echo 'q' > stop && rm stop
-		sed -i 's/.*/render/' status
-		exit
-	fi
-}
+WITH_AUDIO=
 
 init() {
+	if [ -f $SAVEDIR ]; then
+		mkdir $SAVEDIR
+	fi
+
 	if [ -f $HOME/.config/rofi/theme.rasi ]; then
 		ROFI_THEME="-theme $HOME/.config/rofi/theme.rasi"
 		ROFI_MENU="rofi -dmenu -i -no-custom $ROFI_THEME"
+	fi
+}
+
+is_recording() {
+	if [ $STATUS = 'record' ]; then
+        cd $DIR && echo 'q' > stop
+        pkill parec
+        rm $DIR/stop
+		sed -i 's/.*/render/' $DIR/status
+		exit
 	fi
 }
 
@@ -69,10 +84,10 @@ fix_area() {
 }
 
 with_audio() {
-	audio="$(echo "$(printf "No\nYes\nCancel")" | $ROFI_MENU -mesg "Record input audio?")"
-	if [ $audio = "Yes" ]; then
+	WITH_AUDIO="$(echo "$(printf "No\nYes\nCancel")" | $ROFI_MENU -mesg "Record input audio?")"
+	if [ $WITH_AUDIO = "Yes" ]; then
 		select_audio_input
-	elif [ $audio = "No" ]; then
+	elif [ $WITH_AUDIO = "No" ]; then
 		:
 	else
 		exit
@@ -80,13 +95,8 @@ with_audio() {
 }
 
 select_audio_input() {
-	set -f
-	audio_devices=$(sed 's/\*\*\*\*\sList\sof\sCAPTURE\sHardware\sDevices\s\*\*\*\*//g;
-	s/\(Subdevice.*$\)\|\(^\s.*$\)\|\(^\s.*$\)//g;:a;N;s/\(\n\n\n\)\|\(^\n$\)\|\(\n$\)\|\(^\s.*s\)//g;
-	s/\(\n\)//g;:a;N;s/\(^\s\)\|\(\n\)\|\(^card\s\)//g' <<< "$(arecord -l)")
-	readarray -t devices <<< $audio_devices
-	AUDIO_DEVICE=hw:"$(echo "$(printf "%s\n" "${devices[@]}")" | $ROFI_MENU -mesg "Select input device" | cut -c 1)"
-	set +f
+	AUDIO_DEVICE=("$(pactl list short sources | cut -f2)")
+	AUDIO_DEVICE="$(echo "$(printf "%s\n" "${AUDIO_DEVICE[@]}")" | $ROFI_MENU -mesg "Select input device")"
 }
 
 select_framerate() {
@@ -97,9 +107,43 @@ select_framerate() {
 }
 
 start_record() {
-	sed -i 's/.*/record/' $DIR/status
 	cd $DIR && touch stop
-	<stop screencast -n -i $AUDIO_DEVICE -u -s $SIZE -p $POSITION -r $FRAMERATE -o $HOME/Screenrecs >/dev/null 2>> capture.log &
+	sed -i 's/.*/record/' $DIR/status
+	mkdir -p $CACHE/$FILENAME
+
+	if [ $WITH_AUDIO = "Yes" ]; then
+		AUDIO_SETTINGS="-i $CACHE/$FILENAME/$FILENAME.wav"
+		parec \
+		-d $AUDIO_DEVICE \
+		--file-format=wav $CACHE/$FILENAME/$FILENAME.wav &
+	fi
+
+	<stop \
+	ffmpeg \
+	-video_size $SIZE \
+	-framerate $FRAMERATE \
+	-f x11grab \
+	-i :$INPUT \
+	-c:v libx264rgb \
+	-crf 0 \
+	-preset ultrafast \
+	-color_range $COLOR_RANGE \
+	$CACHE/$FILENAME/$FILENAME.mkv >/dev/null 2>> capture.log \
+	&& \
+	ffmpeg \
+	-i $CACHE/$FILENAME/$FILENAME.mkv \
+	-c:v h264 \
+	 $AUDIO_SETTINGS \
+	-preset veryslow \
+	-crf 20 \
+	-c:a aac \
+	-b:a 128k \
+	-ar 44100 \
+	-ac 2 \
+	-vf format=$PIXEL_FORMAT \
+	-movflags +faststart $SAVEDIR/$FILENAME.mp4 \
+	&& \
+	cd $CACHE && rm -rf $FILENAME &
 }
 
 run() {
@@ -115,4 +159,3 @@ run() {
 run
 
 exit
-

@@ -30,7 +30,7 @@ super + shift + f
 
 #start/stop screen record
 super + shift + r
-	bash ~/.config/scripts/screencast/record.sh
+	bash ~/.config/scripts/screenrecord/screenrecord.sh
 
 # program launcher
 super + d
