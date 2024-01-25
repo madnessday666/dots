@@ -8,29 +8,30 @@
 #  $╚═════╝$╚═════╝$╚══════╝$╚═════╝$╚═╝$$╚═╝╚══════╝
 #  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
+
 [colors.bright]
 black = "#475258"
-blue = "#7fbbb3"
-cyan = "#83c092"
-green = "#a7c080"
-magenta = "#d699b6"
+blue = "#b8e3ff"
+cyan = "#a1f8ef"
+green = "#b9ffc4"
+magenta = "#ffaad2"
 red = "#e67e80"
-white = "#d3c6aa"
-yellow = "#dbbc7f"
+white = "#f0f0f0"
+yellow = "#ffd88a"
 
 [colors.normal]
 black = "#475258"
-blue = "#7fbbb3"
-cyan = "#83c092"
-green = "#a7c080"
-magenta = "#d699b6"
+blue = "#b8e3ff"
+cyan = "#a1f8ef"
+green = "#b9ffc4"
+magenta = "#ffaad2"
 red = "#e67e80"
-white = "#d3c6aa"
-yellow = "#dbbc7f"
+white = "#f0f0f0"
+yellow = "#ffd88a"
 
 [colors.primary]
-background = "#1e1e23"
-foreground = "#d3c6aa"
+background = "#1b1b1b"
+foreground = "#f0f0f0"
 
 
 #  $██████╗$██████╗$███╗$$$██╗███████╗██╗$██████╗$
