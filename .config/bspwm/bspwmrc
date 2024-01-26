@@ -44,6 +44,7 @@ bspc config pointer_action2 		resize_corner
 
 
 bspc rule -a Pavucontrol state=floating center=true
+bspc rule -a lite-xl state=fullscreen
 
 
 #  $█████╗$██╗$$$██╗████████╗$██████╗$███████╗████████╗$█████╗$██████╗$████████╗

@@ -136,13 +136,13 @@ install_packages() {
 
 	xbps-install -y \
 	alacritty bspwm curl dbus dbus-devel dbus-libs dbus-x11 docker docker-compose dunst elogind \
-	feh ffmpeg firefox flameshot font-awesome6 geany gcc htop libconfig libconfig-devel libconfig++ \
+	feh ffmpeg firefox flameshot font-awesome6 gcc htop libconfig libconfig-devel libconfig++ \
 	libconfig++-devel libev libev-devel libevdev libglvnd libglvnd-devel libX11 libX11-devel \
-	libxcb libxcb-devel libxdg-basedir lightdm lightdm-gtk3-greeter make mpv nano neofetch \
-	NetworkManager numlockx pavucontrol pcre2 pcre2-devel pixman pixman-devel polkit polybar \
-	pulseaudio python3-pipx python3-pkgconfig ranger rofi slop sxhkd unzip uthash xcb-util-image \
-	xcb-util-image-devel xcb-util-renderutil xcb-util-renderutil-devel xdotool xorg xscreensaver \
-	zsh
+	libxcb libxcb-devel libxdg-basedir lightdm lightdm-gtk3-greeter lite-xl make micro mpv \
+	neofetch NetworkManager numlockx pavucontrol pcre2 pcre2-devel pixman pixman-devel polkit \
+	polybar pulseaudio python3-pipx python3-pkgconfig ranger rofi slop sxhkd unzip uthash \
+	xcb-util-image xcb-util-image-devel xcb-util-renderutil xcb-util-renderutil-devel xdotool \
+	xorg xscreensaver zsh
 
 	cd $home
 	nr "mkdir Downloads"
@@ -154,11 +154,18 @@ install_packages() {
 	nr "curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh" | nr bash
 	nr "curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh" | nr bash --unattended
 	nr "git clone https://github.com/allusive-dev/compfy.git $home/Downloads/compfy"
-	move_files
+	nr "git clone https://github.com/lite-xl/lite-xl-plugins.git $home/Downloads/lite-xl"
 	nr "git clone https://github.com/alexanderjeurissen/ranger_devicons $home/.config/ranger/plugins/ranger_devicons"
-	nr "echo default_linemode devicons" | nr "tee -a $home/.config/ranger/rc.conf"
+	move_files
 
-	cd $home/Downloads/compfy && meson setup . build && ninja -C build && ninja -C build install && rm -r -f $home/Downloads/compfy
+	cd $home/Downloads/compfy \
+	&& meson setup . build \
+	&& ninja -C build \
+	&& ninja -C build install \
+	&& rm -r -f $home/Downloads/compfy
+	cd $home/Downloads/lite-xl/plugins \
+	&& nr "cp align_carets.lua autoinsert.lua colorpreview.lua selectionhighlight.lua language_*.lua $home/.config/lite-xl/plugins" \
+	&& rm -r -f $home/Downloads/lite-xl
 
 	service_setup
 
