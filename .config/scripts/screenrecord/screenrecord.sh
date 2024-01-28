@@ -9,6 +9,7 @@ COLOR_RANGE=2
 INPUT="0.0"
 FILENAME="$(date +"%Y-%m-%d_%H:%M:%S")"
 FRAMERATE=
+MAP_SETTINGS=
 PIXEL_FORMAT="yuv420p"
 POSITION=
 SAVEDIR="$HOME/Screenrecs"
@@ -112,7 +113,8 @@ start_record() {
 	mkdir -p $CACHE/$FILENAME
 
 	if [ $WITH_AUDIO = "Yes" ]; then
-		AUDIO_SETTINGS="-i $CACHE/$FILENAME/$FILENAME.wav"
+		AUDIO_SETTINGS="-i $CACHE/$FILENAME/$FILENAME.wav -async 25"
+		MAP_SETTINGS = "-map 0:a:0 -map 1:v:0"
 		parec \
 		-d $AUDIO_DEVICE \
 		--file-format=wav $CACHE/$FILENAME/$FILENAME.wav &
@@ -138,6 +140,7 @@ start_record() {
 	-crf 20 \
 	-c:a aac \
 	-b:a 128k \
+	$MAP_SETTINGS \
 	-ar 44100 \
 	-ac 2 \
 	-vf format=$PIXEL_FORMAT \

@@ -19,6 +19,8 @@
 #===========================================================================================#
 
 
+NEWLINE=$'\n'
+
 git_time_since_commit() {
 	# Only proceed if there is actually a commit.
 	if last_commit=$(git log --pretty=format:'%at' -1 2> /dev/null); then
@@ -161,6 +163,8 @@ git_prompt() {
   fi
 }
 
-PROMPT='%(?, ,%{$fg[red]%}FAIL%{$reset_color%})
+PROMPT='%(?,,%{$fg[red]%}FAIL${NEWLINE}%{$reset_color%})\
 ┌─[%F{blue}%~%f] [%F{green}%D{%H:%M:%S}%f]$(git_prompt)$(git_time_since_commit)
 └─▶ '
+
+
