@@ -55,13 +55,14 @@ service_setup() {
 	echo "Setup services...\n"
 	sleep 1
 
+	ln -s /etc/sv/chronyd /var/service/
 	ln -s /etc/sv/containerd /var/service/
 	ln -s /etc/sv/dbus /var/service/
 	ln -s /etc/sv/docker /var/service/
 	ln -s /etc/sv/elogind /var/service/
+	ln -s /etc/sv/lightdm /var/service/
 	ln -s /etc/sv/NetworkManager /var/service/
 	ln -s /etc/sv/polkitd /var/service/
-	ln -s /etc/sv/lightdm /var/service/
 
 	cd /var/service
 	rm -rf acpid
@@ -135,7 +136,7 @@ install_packages() {
 	sleep 2
 
 	xbps-install -y \
-	alacritty alsa-plugins-pulseaudio bspwm curl dbus dbus-devel dbus-libs dbus-x11 \
+	alacritty alsa-plugins-pulseaudio bspwm chrony curl dbus dbus-devel dbus-libs dbus-x11 \
 	docker docker-compose dunst elogind exa feh ffmpeg firefox flameshot font-awesome6 \
 	gcc htop libconfig libconfig-devel libconfig++ libconfig++-devel libev libev-devel \
 	libevdev libglvnd libglvnd-devel libX11 libX11-devel libxcb libxcb-devel libxdg-basedir \
