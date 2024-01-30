@@ -4,18 +4,18 @@
 # ******************************************************************************************#
 # **************THEME WAS ASSEMBLED FROM PARTS TAKEN FROM DIFFERENT AUTHORS.****************#
 # ******************************************************************************************#
-#																							#
-#									PERSONAL THANKS TO:										#
-#																							#
+#                                                                                           #
+#                                PERSONAL THANKS TO:                                        #
+#                                                                                           #
 #-------------------------------------------------------------------------------------------#
-# @Heapbytes for "PROMPT"																	#
-# https://github.com/heapbytes/heapbytes-zsh/blob/main/heapbytes.zsh-theme					#
+# @Heapbytes for "PROMPT"                                                                   #
+# https://github.com/heapbytes/heapbytes-zsh/blob/main/heapbytes.zsh-theme                  #
 #-------------------------------------------------------------------------------------------#
-# @zakaziko99 https://github.com/zakaziko99 for "git_prompt" (orig: prompt_git)				#
-# https://github.com/zakaziko99/agnosterzak-ohmyzsh-theme/blob/master/agnosterzak.zsh-theme	#
+# @zakaziko99 https://github.com/zakaziko99 for "git_prompt" (orig: prompt_git)             #
+# https://github.com/zakaziko99/agnosterzak-ohmyzsh-theme/blob/master/agnosterzak.zsh-theme #
 #-------------------------------------------------------------------------------------------#
-# @AmrMKayid for "git_time_since_commit"													#
-# https://github.com/AmrMKayid/KayidmacOS/blob/master/kayid.zsh-theme						#
+# @AmrMKayid for "git_time_since_commit"                                                    #
+# https://github.com/AmrMKayid/KayidmacOS/blob/master/kayid.zsh-theme                       #
 #===========================================================================================#
 
 

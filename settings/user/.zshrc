@@ -18,7 +18,7 @@ plugins=(git)
 source $HOME/.bashrc
 source $ZSH/oh-my-zsh.sh
 
-alias idea="nohup $HOME/Intellij-Idea/bin/idea.sh & disown && exit"
+alias idea="$HOME/Intellij-Idea/bin/idea.sh & disown && exit"
 alias i="sudo xbps-install -S"
 alias r="sudo xbps-remove -R"
 alias q="xbps-query -Rs"
