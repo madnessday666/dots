@@ -165,6 +165,7 @@ install_packages() {
 	&& ninja -C build install \
 	&& rm -r -f $home/Downloads/compfy
 	cd $home/Downloads/lite-xl/plugins \
+	&& nr "mkdir -p $home/.config/lite-xl/plugins" \
 	&& nr "cp align_carets.lua autoinsert.lua colorpreview.lua selectionhighlight.lua language_*.lua $home/.config/lite-xl/plugins" \
 	&& rm -r -f $home/Downloads/lite-xl
 
