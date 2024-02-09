@@ -10,7 +10,7 @@
 
 
 [colors.bright]
-black = "#475258"
+black = "#717a80"
 blue = "#b8e3ff"
 cyan = "#a1f8ef"
 green = "#b9ffc4"
@@ -20,7 +20,7 @@ white = "#f0f0f0"
 yellow = "#ffd88a"
 
 [colors.normal]
-black = "#475258"
+black = "#717a80"
 blue = "#b8e3ff"
 cyan = "#a1f8ef"
 green = "#b9ffc4"
