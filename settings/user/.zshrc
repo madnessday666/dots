@@ -24,5 +24,6 @@ alias r="sudo xbps-remove -R"
 alias q="xbps-query -Rs"
 alias m="micro"
 alias l="exa --long --all --group --total-size"
+alias ra="ranger"
 
 ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi

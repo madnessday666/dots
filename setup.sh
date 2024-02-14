@@ -157,6 +157,13 @@ install_packages() {
 	nr "git clone https://github.com/allusive-dev/compfy.git $home/Downloads/compfy"
 	nr "git clone https://github.com/lite-xl/lite-xl-plugins.git $home/Downloads/lite-xl"
 	nr "git clone https://github.com/alexanderjeurissen/ranger_devicons $home/.config/ranger/plugins/ranger_devicons"
+	nr "curl -L \
+	"$(curl -fsSL https://api.github.com/repos/ful1e5/BreezeX_Cursor/releases/latest \
+	| grep -Eo 'http.*Light*\.tar\.gz' \
+	| head -n1)" \
+	--output $home/Downloads/cursor.tar.gz" \
+	&& mkdir $home/.icons \
+	&& tar xfv $home/Downloads/cursor.tar.gz -C $home/.icons
 	move_files
 
 	cd $home/Downloads/compfy \

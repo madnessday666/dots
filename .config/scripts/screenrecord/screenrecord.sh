@@ -11,7 +11,7 @@ FILENAME="$(date +"%Y-%m-%d_%H:%M:%S")"
 FRAMERATE=
 MAP_SETTINGS=
 PIXEL_FORMAT="yuv420p"
-POSITION=
+POSITION=0,0
 SAVEDIR="$HOME/Screenrecs"
 SIZE=
 STATUS="$(cat $DIR/status)"
@@ -125,7 +125,7 @@ start_record() {
 	-video_size $SIZE \
 	-framerate $FRAMERATE \
 	-f x11grab \
-	-i :$INPUT \
+	-i :$INPUT+$POSITION \
 	-c:v libx264rgb \
 	-crf 0 \
 	-preset ultrafast \

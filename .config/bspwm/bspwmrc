@@ -58,12 +58,12 @@ bspc rule -a lite-xl state=fullscreen
 
 pgrep -x sxhkd > /dev/null || sxhkd &
 bspwm -c $HOME/.config/bspwm/bspwmrc &
-xsetroot -cursor_name left_ptr &
 dbus-launch dunst &
 setxkbmap -option grp:alt_shift_toggle us,ru &
 xset r rate 250 50 &
-numlockx &
 feh --bg-scale $HOME/.config/wallpapers/wallpapers.png &
 compfy --config=$HOME/.config/compfy/compfy.conf &
 xscreensaver --no-splash &
+xsetroot -cursor_name left_ptr &
+xrdb ~/.Xresources &
 $HOME/.config/polybar/launch.sh &
