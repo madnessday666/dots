@@ -163,7 +163,8 @@ install_packages() {
 	| head -n1)" \
 	--output $home/Downloads/cursor.tar.gz" \
 	&& mkdir $home/.icons \
-	&& tar xfv $home/Downloads/cursor.tar.gz -C $home/.icons
+	&& tar xfv $home/Downloads/cursor.tar.gz -C $home/.icons \
+	&& rm $home/Downloads/cursor.tar.gz
 	move_files
 
 	cd $home/Downloads/compfy \
