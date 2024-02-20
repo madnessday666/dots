@@ -263,6 +263,6 @@ quit_installation() {
 	exit
 }
 
-
+init
 
 exit
