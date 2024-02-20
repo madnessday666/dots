@@ -1,5 +1,5 @@
 # XScreenSaver Preferences File
-# Written by xscreensaver-settings 6.08 for madnessday666 on Mon Jan  8 20:56:58 2024.
+# Written by xscreensaver-settings 6.08 for madnessday666 on Fri Feb  2 23:28:07 2024.
 # https://www.jwz.org/xscreensaver/
 
 timeout:	0:30:00
@@ -29,7 +29,7 @@ chooseRandomImages: False
 imageDirectory:	
 
 mode:		one
-selected:	168
+selected:	49
 
 textMode:	url
 textLiteral:	XScreenSaver
@@ -37,7 +37,7 @@ textFile:
 textProgram:	fortune
 textURL:	https://en.wikipedia.org/w/index.php?title=Special:NewPages&feed=rss
 dialogTheme:	default
-settingsGeom:	1003,40 -1,-1
+settingsGeom:	10,45 -1,-1
 
 programs:								      \
 				maze --root				    \n\
