@@ -154,11 +154,11 @@ install_external_packages() {
 
 	#Install scientifica font
 	nr "curl -L \
-	https://github.com/nerdypepper/scientifica/releases/latest/download/scientifica.tar \
-	--output $home/Downloads/scientifica.tar"
-	nr "tar --extract --file=$home/Downloads/scientifica.tar scientifica/ttf/scientifica.ttf"
+		https://github.com/nerdypepper/scientifica/releases/latest/download/scientifica.tar \
+		--output $home/Downloads/scientifica.tar"
+	nr "tar xfv $home/Downloads/scientifica.tar -C $home/Downloads"
 	nr "cp $home/Downloads/scientifica/ttf/scientifica.ttf $home/.local/share/fonts"
-
+	
 	#Install SourceCodePro (Nerd patched) font
 	nr "curl -L \
 	https://github.com/ryanoasis/nerd-fonts/releases/latest/download/SourceCodePro.tar.xz \
@@ -263,6 +263,8 @@ quit_installation() {
 	exit
 }
 
-init
+#init
+
+
 
 exit
