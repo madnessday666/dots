@@ -124,7 +124,7 @@ install_packages() {
 	lightdm lightdm-gtk3-greeter lite-xl make micro mpv neofetch NetworkManager numlockx \
 	pavucontrol pcre2 pcre2-devel pixman pixman-devel polkit polybar pulseaudio python3-pipx \
 	python3-pkgconfig ranger rofi slop sxhkd unzip uthash xcb-util-image xcb-util-image-devel \
-	xcb-util-renderutil xcb-util-renderutil-devel xdotool xorg xscreensaver zsh
+	xcb-util-renderutil xcb-util-renderutil-devel xdg-utils xdotool xorg xscreensaver zsh
 
 	create_dirs
 	install_external_packages
@@ -181,7 +181,15 @@ install_external_packages() {
 
 	#Install plugins for lite-xl
 	cd $home/Downloads/lite-xl/plugins \
-	&& nr "cp align_carets.lua autoinsert.lua colorpreview.lua selectionhighlight.lua language_*.lua $home/.config/lite-xl/plugins"
+	&& nr "cp \
+	align_carets.lua \
+	autoinsert.lua \
+	autowrap.lua \
+	ghmarkdown.lua \
+	colorpreview.lua \
+	selectionhighlight.lua \
+	language_*.lua \
+	$home/.config/lite-xl/plugins"
 
 	#Clean up
 	rm $home/Downloads/scientifica.tar
