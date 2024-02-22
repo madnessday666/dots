@@ -131,23 +131,6 @@ install_main_packages() {
 	xcb-util-renderutil-devel xdg-utils xdotool xorg xscreensaver zsh
 }
 
-start_installation() {
-	echo "Start installation...\n"
-	sleep 1
-
-	check_env
-	check_for_updates
-	create_dirs
-	install_main_packages
-	install_external_packages
-	copy_user_files
-	manage_service
-	clean_up
-	
-	echo "Installation completed, reboot now? [y/N]:"
-	check_condition reboot_system quit_installation  
-}
-
 install_external_packages() {
 	#Install JetBrainsMono font
 	nr "curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh" | nr bash
@@ -170,7 +153,7 @@ install_external_packages() {
 	#Install scientifica font
 	nr "git clone https://github.com/Computer-M/scientifica.git $home/Downloads/scientifica"
 	nr "curl -L \
-	"$(curl -fsSL https://api.github.com/repos/kreativekorp/bitsnpicas/releases/latest \
+	"$(curl -fsSL \https://api.github.com/repos/kreativekorp/bitsnpicas/releases/latest \
 				| grep -Eo "https.*BitsNPicas.jar" \
 				| head -n1)" \
 	--output $home/Downloads/BitsNPicas.jar"
@@ -270,6 +253,23 @@ manage_service() {
 #Run command as non root user
 nr() {
 	runuser -u $user -- $1
+}
+
+start_installation() {
+	echo "Start installation...\n"
+	sleep 1
+
+	check_env
+	check_for_updates
+	create_dirs
+	install_main_packages
+	install_external_packages
+	copy_user_files
+	manage_service
+	clean_up
+	
+	echo "Installation completed, reboot now? [y/N]:"
+	check_condition reboot_system quit_installation  
 }
 
 reboot_system() {
