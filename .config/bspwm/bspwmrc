@@ -23,15 +23,19 @@ else
 	bspc monitor DisplayPort-0 -d 1 2 3 4 5
 fi
 
-bspc config border_width			0
-bspc config window_gap				10
-bspc config split_ratio          	0.5
-bspc config borderless_monocle   	true
-bspc config gapless_monocle      	true
-bspc config focus_follows_pointer 	true
-bspc config pointer_action1 		move
-bspc config pointer_action2 		resize_side
-bspc config pointer_action2 		resize_corner
+bspc config top_padding                -75
+bspc config left_padding                0
+bspc config right_padding               0
+bspc config bottom_padding              0
+bspc config window_gap                  10
+bspc config border_width                0
+bspc config split_ratio                 0.5
+bspc config borderless_monocle          true
+bspc config gapless_monocle             true
+bspc config focus_follows_pointer       true
+bspc config pointer_action1             move
+bspc config pointer_action2             resize_side
+bspc config pointer_action2             resize_corner
 
 
 #  ██████╗$██╗$$$██╗██╗$$$$$███████╗███████╗
@@ -45,6 +49,7 @@ bspc config pointer_action2 		resize_corner
 
 bspc rule -a Pavucontrol state=floating center=true
 bspc rule -a lite-xl state=fullscreen
+bspc rule -a ymwp.YandexMusicWavePlayer state=floating sticky=on
 
 
 #  $█████╗$██╗$$$██╗████████╗$██████╗$███████╗████████╗$█████╗$██████╗$████████╗
