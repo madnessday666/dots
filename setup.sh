@@ -63,12 +63,13 @@ check_for_updates() {
 }
 
 clean_up() {
+	rm $home/Downloads/BitsNPicas.jar
+	rm $home/Downloads/BreezeX_Cursor.tar.gz
+	rm $home/Downloads/jdk17.tar.gz
 	rm $home/Downloads/SourceCodePro.tar.xz
-	rm $home/Downloads/cursor.tar.gz
 	rm -r -f $home/Downloads/compfy
 	rm -r -f $home/Downloads/lite-xl
 	rm -r -f $home/Downloads/scientifica
-	xbps-remove -R fontforge
 }
 
 copy_user_files() {
@@ -121,14 +122,13 @@ echo "
 install_main_packages() {
 	xbps-install -y \
 	alacritty alsa-plugins-pulseaudio bspwm chrony curl dbus dbus-devel dbus-libs dbus-x11 \
-	docker docker-compose dunst elogind exa feh ffmpeg firefox flameshot font-awesome6 \
-	fontforge gcc htop libconfig libconfig-devel libconfig++ libconfig++-devel libev \
-	libev-devel libevdev libglvnd libglvnd-devel libX11 libX11-devel libxcb libxcb-devel \
-	libxdg-basedir lightdm lightdm-gtk3-greeter lite-xl make micro mpv neofetch NetworkManager \
-	numlockx pavucontrol pcre2 pcre2-devel pixman pixman-devel polkit polybar pulseaudio \
-	python3-pipx python3-pkgconfig ranger rofi slop sxhkd unzip uthash xcb-util-image \
-	xcb-util-image-devel xcb-util-renderutil xcb-util-renderutil-devel xdg-utils xdotool \
-	xorg xscreensaver zsh
+	docker docker-compose dunst elogind exa feh ffmpeg firefox flameshot font-awesome6 gcc \
+	htop libconfig libconfig-devel libconfig++ libconfig++-devel libev libev-devel libevdev \
+	libglvnd libglvnd-devel libX11 libX11-devel libxcb libxcb-devel libxdg-basedir lightdm \
+	lightdm-gtk3-greeter lite-xl make micro mpv neofetch NetworkManager numlockx pavucontrol \
+	pcre2 pcre2-devel pixman pixman-devel polkit polybar pulseaudio python3-pipx python3-pkgconfig \
+	ranger rofi slop sxhkd unzip uthash xcb-util-image xcb-util-image-devel xcb-util-renderutil \
+	xcb-util-renderutil-devel xdg-utils xdotool xorg xscreensaver zsh
 }
 
 start_installation() {
@@ -169,12 +169,14 @@ install_external_packages() {
 
 	#Install scientifica font
 	nr "git clone https://github.com/Computer-M/scientifica.git $home/Downloads/scientifica"
-	nr "curl -o BitsNPicas.jar \
-	https://github.com/kreativekorp/bitsnpicas/blob/master/downloads/BitsNPicas.jar \
-	--output-dir $home/Downloads/scientifica"
-	cd $home/Downloads/scientifica && nr "bash $home/Downloads/scientifica/build.sh"
-	nr "cp $home/Downloads/scientifica/build/scientifica/otb/scientifica.otb \
-	$home/.local/share/fonts"
+	nr "curl -L \
+	"$(curl -fsSL https://api.github.com/repos/kreativekorp/bitsnpicas/releases/latest \
+				| grep -Eo "https.*BitsNPicas.jar" \
+				| head -n1)" \
+	--output $home/Downloads/BitsNPicas.jar"
+	nr "java -jar $home/Downloads/BitsNPicas.jar \
+	convertbitmap -f ttf -o $home/.local/share/fonts/scientifica.ttf \
+	$home/Downloads/scientifica/src/scientifica.sfd"
 	
 	#Install SourceCodePro (Nerd patched) font
 	nr "curl -L \
@@ -187,8 +189,8 @@ install_external_packages() {
 	"$(curl -fsSL https://api.github.com/repos/ful1e5/BreezeX_Cursor/releases/latest \
 	| grep -Eo 'http.*Light*\.tar\.gz' \
 	| head -n1)" \
-	--output $home/Downloads/cursor.tar.gz"
-	nr "tar xfv $home/Downloads/cursor.tar.gz -C $home/.icons"
+	--output $home/Downloads/BreezeX_Cursor.tar.gz"
+	nr "tar xfv $home/Downloads/BreezeX_Cursor.tar.gz -C $home/.icons"
 
 	#Install meson and ninja
 	nr "pipx install meson"

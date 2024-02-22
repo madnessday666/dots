@@ -11,7 +11,7 @@
 # @Heapbytes for "PROMPT"                                                                   #
 # https://github.com/heapbytes/heapbytes-zsh/blob/main/heapbytes.zsh-theme                  #
 #-------------------------------------------------------------------------------------------#
-# @zakaziko99 https://github.com/zakaziko99 for "git_prompt" (orig: prompt_git)             #
+# @zakaziko99 for "git_prompt"                                                              #
 # https://github.com/zakaziko99/agnosterzak-ohmyzsh-theme/blob/master/agnosterzak.zsh-theme #
 #-------------------------------------------------------------------------------------------#
 # @AmrMKayid for "git_time_since_commit"                                                    #
