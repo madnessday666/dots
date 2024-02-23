@@ -201,7 +201,7 @@ install_external_packages() {
 	$home/.config/lite-xl/plugins"
 }
 
-manage_service() {
+manage_services() {
 	echo "
 	\r====================================================
 	\nManaging Services..."
@@ -265,7 +265,7 @@ start_installation() {
 	install_main_packages
 	install_external_packages
 	copy_user_files
-	manage_service
+	manage_services
 	clean_up
 	
 	echo "Installation completed, reboot now? [y/N]:"
