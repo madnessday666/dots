@@ -71,4 +71,5 @@ compfy --config=$HOME/.config/compfy/compfy.conf &
 xscreensaver --no-splash &
 xsetroot -cursor_name left_ptr &
 xrdb ~/.Xresources &
+clipit &
 $HOME/.config/polybar/launch.sh &
