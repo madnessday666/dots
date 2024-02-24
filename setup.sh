@@ -283,7 +283,7 @@ manage_services() {
 	#Remove conflicting services
 	cd /var/service
 	rm -rf acpid
-	rm -rf wpa_supplicantt
+	rm -rf wpa_supplicant
 	rm -rf dhcpcd*
 
 	#Add user to group 'power' and create rule for non root power management 
@@ -304,7 +304,7 @@ manage_services() {
  	})' | tee -a /etc/polkit-1/rules.d/*.rules >/dev/null
  	
 	#Change shell to zsh
-	chsh -s /bin/zsh $userr
+	chsh -s /bin/zsh $user
 
 	echo "
 	\rService managing completed!
