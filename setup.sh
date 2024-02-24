@@ -75,11 +75,8 @@ clean_up() {
 }
 
 copy_user_files() {
-	cd $dir
-	nr "cp -r .config $home"
-	nr "cp -r settings/user/. $home"
-	nr "cp -r settings/zsh/. $home/.oh-my-zsh/themes"
-	cp .config/wallpapers/wallpapers.png /etc/lightdm/ && cp -r settings/dm/. /etc/lightdm/
+	nr "cp -r $dir/home/. $home"
+	cp $dir/home/.config/wallpapers/wallpapers.png /etc/lightdm/ && cp -r $dir/dm/. /etc/lightdm/
 }
 
 create_dirs() {
@@ -87,7 +84,6 @@ create_dirs() {
 	nr "mkdir Downloads"
 	nr "mkdir Screenshots"
 	nr "mkdir Screenrecs"
-	nr "mkdir -p .config/lite-xl"
 	nr "mkdir .icons"
 	nr "mkdir .jdks"
 }
@@ -120,7 +116,7 @@ echo "
 	check_condition start_installation quit_installation
 }
 
-install_main_packages() {
+install_repo_packages() {
 	xbps-install -Sy \
 	alacritty alsa-plugins-pulseaudio bspwm chrony clipit curl dbus dbus-devel dbus-libs dbus-x11 \
 	docker docker-compose dunst elogind exa feh ffmpeg firefox flameshot font-awesome6 gcc htop \
@@ -236,8 +232,8 @@ install_external_packages() {
 				break
 				;;
 			esac
-		done < "$dir/.config/alacritty/alacritty.toml"
-	row=$row"s/.*background = { common.color \"#.*\" },.*\s/  background = { common.color \"#404040\" },/;"
+		done < "$dir/home/.config/alacritty/alacritty.toml"
+	row=$row"s/.*background = { common.color \"#.*\" },.*\s/  background = { common.color \"#303841\" },/;"
 	row=$row"s/.*\[  5\] = { common.color \"#.*\" },.*\s//;"
 	row=$row"s/.*\[ 10\] = { common.color \"#.*\" },.*\s//;"
 	row=$row"s/.*\[ 15\] = { common.color \"#.*\" },.*\s//;"
@@ -251,11 +247,13 @@ install_external_packages() {
 	bracketmatch.lua \
 	colorpreview.lua \
 	extend_selection_line.lua \
+	fontconfig.lua \
 	ghmarkdown.lua \
 	indentguide.lua \
 	language_*.lua \
 	restoretabs.lua \
 	selectionhighlight.lua \
+	select_colorscheme.lua \
 	sort.lua \
 	sticky_scroll.lua \
 	su_save.lua \
@@ -324,9 +322,9 @@ start_installation() {
 	check_env
 	check_for_updates
 	create_dirs
-	install_main_packages
-	install_external_packages
 	copy_user_files
+	install_repo_packages
+	install_external_packages
 	manage_services
 	clean_up
 	
