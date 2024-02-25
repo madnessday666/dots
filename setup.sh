@@ -1,7 +1,7 @@
 #!/bin/bash
 
 user="$(logname)"
-home="/home/$user"
+home=$(sudo -u "$user" sh -c 'echo $HOME')
 dir="$(dirname "$(readlink -f "$0")")"
 
 check_condition() {
@@ -17,52 +17,61 @@ check_condition() {
 	done
 }
 
-check_env() {
+check_path_var() {
+	echo "===============================PATH variable check==============================\n"
+	sleep 1
+	
 	e="$(sudo -Hiu $user env | grep ^PATH)"
 	#If user have PATH variable proceed with the installation
 	case $e in
 		*$home/.local/bin*|*$home/.jdks/default/bin*)
-		echo "PATH variable is OK";
+		echo "PATH variable is OK\n";
 		;;
 		*)
 		echo "
-			\r====================================================
-			\nPATH variable needs to be updated to continue \
-			\n(this will be done automatically), \
-			\nyou will need to log in and rerun the script.
-			\n[Press Enter to continue]
-			\n====================================================\n"
-			#Set PATH variable
+			\r#===================================================#
+			\r#   PATH variable needs to be updated to continue   #
+			\r#         (this will be done automatically)         #
+			\r#   you will need to log in and rerun the script.   #
+			\r#===================================================#
+			
+			\r             [Press Enter to continue]             
+			"
+			##Set PATH variable
 			read input
 				if [ ! -f $home/.bashrc ]; then
-					nr "echo -e \
+					as_user "echo -e \
 					#!/bin/bash\n\nexport $e:$home/.local/bin:$home/.jdks/default/bin" \
 					tee -a $home/.bashrc >/dev/null
 						else
-					nr "echo -e \
+					as_user "echo -e \
 					\nexport $e:$home/.local/bin:$home/.jdks/default/bin" \
 					| tee -a $home/.bashrc >/dev/null
 				fi
-			#Logout
+			##Logout
 			pid="$(who -u | awk '{print $6}')"
 			kill $pid
 			;;
 	esac
+	
+	echo "========================PATH variable check is complete!========================\n"
+	sleep 1
 }
 
 check_for_updates() {
-	echo "
-	\r====================================================
-	\nCheck for updates...\n"
+	echo "================================Check for updates===============================\n"
 	sleep 1
+	
 	xbps-install -Syu
-	echo "
-	\rSystem files updated!
-	\n====================================================\n"
-	sleep 2
+	
+	echo "==============================System files updated!=============================\n"
+	sleep 1
 }
 
 clean_up() {
+	echo "===================================Cleaning up==================================\n"
+	sleep 1
+	
 	rm $home/Downloads/BitsNPicas.jar
 	rm $home/Downloads/BreezeX_Cursor.tar.gz
 	rm $home/Downloads/jdk17.tar.gz
@@ -72,51 +81,69 @@ clean_up() {
 	rm -r -f $home/Downloads/lite-xl-colors
 	rm -r -f $home/Downloads/lite-xl-terminal
 	rm -r -f $home/Downloads/scientifica
+
+	echo "==============================Сleanup is complete!==============================\n"
+	sleep 1
 }
 
 copy_user_files() {
-	nr "cp -r $dir/home/. $home"
+	echo "===============================Copying user files===============================\n"
+	sleep 1
+	
+	as_user "cp -r $dir/home/. $home"
 	cp $dir/home/.config/wallpapers/wallpapers.png /etc/lightdm/ && cp -r $dir/dm/. /etc/lightdm/
+
+	echo "=======================Сopying of user files is complete!=======================\n"
+	sleep 1
 }
 
-create_dirs() {
+create_user_dir() {
+	echo "============================Creating user directories===========================\n"
+	sleep 1
+	
 	cd $home
-	nr "mkdir Downloads"
-	nr "mkdir Screenshots"
-	nr "mkdir Screenrecs"
-	nr "mkdir .icons"
-	nr "mkdir .jdks"
+	as_user "mkdir Downloads"
+	as_user "mkdir Screenshots"
+	as_user "mkdir Screenrecs"
+	as_user "mkdir .icons"
+	as_user "mkdir .jdks"
+	
+	echo "======================User directory creation is complete!======================\n"
+	sleep 1
 }
 
 init() {
 echo "
-             ██╗   ██╗ ██████╗ ██╗██████╗     ██╗     ██╗███╗   ██╗██╗   ██╗██╗  ██╗               
-             ██║   ██║██╔═══██╗██║██╔══██╗    ██║     ██║████╗  ██║██║   ██║╚██╗██╔╝               
-             ██║   ██║██║   ██║██║██║  ██║    ██║     ██║██╔██╗ ██║██║   ██║ ╚███╔╝                
-             ╚██╗ ██╔╝██║   ██║██║██║  ██║    ██║     ██║██║╚██╗██║██║   ██║ ██╔██╗                
-              ╚████╔╝ ╚██████╔╝██║██████╔╝    ███████╗██║██║ ╚████║╚██████╔╝██╔╝ ██╗               
-               ╚═══╝   ╚═════╝ ╚═╝╚═════╝     ╚══════╝╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝               
-                                                                                                   
-███████╗███████╗████████╗██╗   ██╗██████╗     ██╗  ██╗███████╗██╗     ██████╗ ███████╗██████╗      
-██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗    ██║  ██║██╔════╝██║     ██╔══██╗██╔════╝██╔══██╗     
-███████╗█████╗     ██║   ██║   ██║██████╔╝    ███████║█████╗  ██║     ██████╔╝█████╗  ██████╔╝     
-╚════██║██╔══╝     ██║   ██║   ██║██╔═══╝     ██╔══██║██╔══╝  ██║     ██╔═══╝ ██╔══╝  ██╔══██╗     
-███████║███████╗   ██║   ╚██████╔╝██║         ██║  ██║███████╗███████╗██║     ███████╗██║  ██║     
-╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝         ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚══════╝╚═╝  ╚═╝     
-                                                                                                   
-                                ██╗   ██╗     ██╗    ██████╗                                       
-                                ██║   ██║    ███║   ██╔═████╗                                      
-                                ██║   ██║    ╚██║   ██║██╔██║                                      
-                                ╚██╗ ██╔╝     ██║   ████╔╝██║                                      
-                                 ╚████╔╝      ██║██╗╚██████╔╝                                      
-                                  ╚═══╝       ╚═╝╚═╝ ╚═════╝                                       
-                                                                                                   "
+    ██╗   ██╗ ██████╗ ██╗██████╗     ██╗     ██╗███╗   ██╗██╗   ██╗██╗  ██╗
+    ██║   ██║██╔═══██╗██║██╔══██╗    ██║     ██║████╗  ██║██║   ██║╚██╗██╔╝
+    ██║   ██║██║   ██║██║██║  ██║    ██║     ██║██╔██╗ ██║██║   ██║ ╚███╔╝ 
+    ╚██╗ ██╔╝██║   ██║██║██║  ██║    ██║     ██║██║╚██╗██║██║   ██║ ██╔██╗ 
+     ╚████╔╝ ╚██████╔╝██║██████╔╝    ███████╗██║██║ ╚████║╚██████╔╝██╔╝ ██╗
+      ╚═══╝   ╚═════╝ ╚═╝╚═════╝     ╚══════╝╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝
+                                                                           
+                    ██████╗  ██████╗ ████████╗███████╗                     
+                    ██╔══██╗██╔═══██╗╚══██╔══╝██╔════╝                     
+                    ██║  ██║██║   ██║   ██║   ███████╗                     
+                    ██║  ██║██║   ██║   ██║   ╚════██║                     
+                    ██████╔╝╚██████╔╝   ██║   ███████║                     
+                    ╚═════╝  ╚═════╝    ╚═╝   ╚══════╝                     
+                                                                           
+    ██╗███╗   ██╗███████╗████████╗ █████╗ ██╗     ██╗     ███████╗██████╗  
+    ██║████╗  ██║██╔════╝╚══██╔══╝██╔══██╗██║     ██║     ██╔════╝██╔══██╗ 
+    ██║██╔██╗ ██║███████╗   ██║   ███████║██║     ██║     █████╗  ██████╔╝ 
+    ██║██║╚██╗██║╚════██║   ██║   ██╔══██║██║     ██║     ██╔══╝  ██╔══██╗ 
+    ██║██║ ╚████║███████║   ██║   ██║  ██║███████╗███████╗███████╗██║  ██║ 
+    ╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝ 
+"
 	sleep 1
 	echo "Do you want to continue? [y/N]:"
 	check_condition start_installation quit_installation
 }
 
 install_repo_packages() {
+	echo "==================Installing packages from the main repository==================\n"
+	sleep 1
+	
 	xbps-install -Sy \
 	alacritty alsa-plugins-pulseaudio bspwm chrony clipit curl dbus dbus-devel dbus-libs dbus-x11 \
 	docker docker-compose dunst elogind exa feh ffmpeg firefox flameshot font-awesome6 gcc htop \
@@ -126,73 +153,82 @@ install_repo_packages() {
 	pixman-devel polkit polybar pulseaudio python3-pipx python3-pkgconfig ranger rofi slop sxhkd \
 	unzip uthash xcb-util-image xcb-util-image-devel xcb-util-renderutil xcb-util-renderutil-devel \
 	xdg-utils xdotool xorg xscreensaver zsh
+
+	echo "===========Installation packages from the main repository is complete!==========\n"
+	sleep 1
 }
 
 install_external_packages() {
-	#Install JetBrainsMono font
-	nr "curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh" | nr bash
-	
+	echo "==========================Installing external packages==========================\n"
+	sleep 1
+
 	#Install ohmyzsh
-	nr "curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh" | nr bash --unattended
-
-	#Install ranger devicons
-	nr "git clone https://github.com/alexanderjeurissen/ranger_devicons $home/.config/ranger/plugins/ranger_devicons"
-
-	#Install JDK
-	nr "curl -L \
-	"$(curl -fsSL https://api.github.com/repos/adoptium/temurin17-binaries/releases/latest \
-	| grep -Eo "https.*OpenJDK17U-jdk.*x64_linux.*\.tar\.gz" \
-	| head -n1)" \
-	--output $home/Downloads/jdk17.tar.gz"
-	nr "tar xfv $home/Downloads/jdk17.tar.gz -C $home/.jdks"
-	nr "ln -s $home/.jdks/jdk* $home/.jdks/default"
-
-	#Install scientifica font
-	nr "git clone https://github.com/Computer-M/scientifica.git $home/Downloads/scientifica"
-	nr "curl -L \
-	"$(curl -fsSL \https://api.github.com/repos/kreativekorp/bitsnpicas/releases/latest \
-				| grep -Eo "https.*BitsNPicas.jar" \
-				| head -n1)" \
-	--output $home/Downloads/BitsNPicas.jar"
-	nr "java -jar $home/Downloads/BitsNPicas.jar \
-	convertbitmap -f ttf -o $home/.local/share/fonts/scientifica.ttf \
-	$home/Downloads/scientifica/src/scientifica.sfd"
-	
-	#Install SourceCodePro (Nerd patched) font
-	nr "curl -L \
-	https://github.com/ryanoasis/nerd-fonts/releases/latest/download/SourceCodePro.tar.xz \
-	--output $home/Downloads/SourceCodePro.tar.xz"
-	nr "tar xfv $home/Downloads/SourceCodePro.tar.xz -C $home/.local/share/fonts"
+	as_user "curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh" | as_user bash --unattended
+	##Change shell to zsh
+	chsh -s /bin/zsh $user
 
 	#Install Breeze Light cursor
-	nr "curl -L \
+	as_user "curl -L \
 	"$(curl -fsSL https://api.github.com/repos/ful1e5/BreezeX_Cursor/releases/latest \
 	| grep -Eo 'http.*Light*\.tar\.gz' \
 	| head -n1)" \
 	--output $home/Downloads/BreezeX_Cursor.tar.gz"
-	nr "tar xfv $home/Downloads/BreezeX_Cursor.tar.gz -C $home/.icons"
+	as_user "tar xfv $home/Downloads/BreezeX_Cursor.tar.gz -C $home/.icons"
+
+	#Install ranger devicons
+	as_user "git clone https://github.com/alexanderjeurissen/ranger_devicons $home/.config/ranger/plugins/ranger_devicons"
+
+	#Install JDK
+	as_user "curl -L \
+	"$(curl -fsSL https://api.github.com/repos/adoptium/temurin17-binaries/releases/latest \
+	| grep -Eo "https.*OpenJDK17U-jdk.*x64_linux.*\.tar\.gz" \
+	| head -n1)" \
+	--output $home/Downloads/jdk17.tar.gz"
+	as_user "tar xfv $home/Downloads/jdk17.tar.gz -C $home/.jdks"
+	as_user "ln -s $home/.jdks/jdk* $home/.jdks/default"
+	
+	#Install JetBrainsMono font
+	as_user "curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh" | as_user bash
+	
+	#Install scientifica font
+	as_user "git clone https://github.com/Computer-M/scientifica.git $home/Downloads/scientifica"
+	as_user "curl -L \
+	"$(curl -fsSL \https://api.github.com/repos/kreativekorp/bitsnpicas/releases/latest \
+				| grep -Eo "https.*BitsNPicas.jar" \
+				| head -n1)" \
+	--output $home/Downloads/BitsNPicas.jar"
+	as_user "java -jar $home/Downloads/BitsNPicas.jar \
+	convertbitmap -f ttf -o $home/.local/share/fonts/scientifica.ttf \
+	$home/Downloads/scientifica/src/scientifica.sfd"
+	
+	#Install SourceCodePro (Nerd patched) font
+	as_user "curl -L \
+	https://github.com/ryanoasis/nerd-fonts/releases/latest/download/SourceCodePro.tar.xz \
+	--output $home/Downloads/SourceCodePro.tar.xz"
+	as_user "tar xfv $home/Downloads/SourceCodePro.tar.xz -C $home/.local/share/fonts"
 
 	#Install meson and ninja
-	nr "pipx install meson"
-	nr "pipx install ninja"
-	nr "pipx ensurepath"
+	as_user "pipx install meson"
+	as_user "pipx install ninja"
+	as_user "pipx ensurepath"
 	
 	#Install compfy
-	nr "git clone https://github.com/allusive-dev/compfy.git $home/Downloads/compfy"
+	as_user "git clone https://github.com/allusive-dev/compfy.git $home/Downloads/compfy"
 	cd $home/Downloads/compfy \
 	&& meson setup . build \
 	&& ninja -C build \
 	&& ninja -C build install
 
-	#Install lite-xl plugins and colorschemes
-	nr "git clone https://github.com/lite-xl/lite-xl-plugins.git $home/Downloads/lite-xl-plugins"
-	nr "git clone https://github.com/lite-xl/lite-xl-colors.git $home/Downloads/lite-xl-colors"
-	nr "git clone https://github.com/adamharrison/lite-xl-terminal.git $home/Downloads/lite-xl-terminal"
-	##Plugins
-	nr "cp -R $home/Downloads/lite-xl-terminal/plugins $home/.config/lite-xl"
-	nr "curl -L \
+	#Install lite-xl plugins and colors
+	as_user "git clone https://github.com/lite-xl/lite-xl-plugins.git $home/Downloads/lite-xl-plugins"
+	as_user "git clone https://github.com/lite-xl/lite-xl-colors.git $home/Downloads/lite-xl-colors"
+	as_user "git clone https://github.com/adamharrison/lite-xl-terminal.git $home/Downloads/lite-xl-terminal"
+	##Install lite-xl terminal plugin
+	as_user "cp -R $home/Downloads/lite-xl-terminal/plugins $home/.config/lite-xl"
+	as_user "curl -L \
 	https://github.com/adamharrison/lite-xl-terminal/releases/download/latest/libterminal.x86_64-linux.so \
 	--output $home/.config/lite-xl/plugins/terminal/libterminal.x86_64-linux.so"
+	##Get the colors from alacritty.toml and set them in the lite-xl terminal.
 	while read line
 		do
 			case $line in
@@ -239,8 +275,9 @@ install_external_packages() {
 	row=$row"s/.*\[ 15\] = { common.color \"#.*\" },.*\s//;"
 	row=$row"s/.*\[  0\] = { common.color \"#.*\" },.*\s/$replacement/"
 	perl -pi -e "$row" $home/.config/lite-xl/plugins/terminal/init.lua
+	##Install the other plugins
 	cd $home/Downloads/lite-xl-plugins/plugins \
-	&& nr "cp \
+	&& as_user "cp \
 	align_carets.lua \
 	autoinsert.lua \
 	autowrap.lua \
@@ -258,14 +295,15 @@ install_external_packages() {
 	sticky_scroll.lua \
 	su_save.lua \
 	$home/.config/lite-xl/plugins"
-	##Colorschemes
-	nr "cp -R $home/Downloads/lite-xl-colors/colors $home/.config/lite-xl"
+	##Install the color schemes
+	as_user "cp -R $home/Downloads/lite-xl-colors/colors $home/.config/lite-xl"
+
+	echo "=================Installation of external packages is complete!=================\n"
+	sleep 1
 }
 
-manage_services() {
-	echo "
-	\r====================================================
-	\nManaging Services..."
+configure_services() {
+	echo "==============================Configuring services==============================\n"
 	sleep 1
 	
 	#Autostart settings
@@ -284,48 +322,26 @@ manage_services() {
 	rm -rf wpa_supplicant
 	rm -rf dhcpcd*
 
-	#Add user to group 'power' and create rule for non root power management 
-	groupadd power
-	usermod -aG power $user
-	echo '\npolkit.addRule(function(action, subject) {
-	if ((action.id == "org.freedesktop.login1.reboot" ||
-          	action.id == "org.freedesktop.login1.reboot-multiple-sessions" ||
-          	action.id == "org.freedesktop.login1.power-off" ||
-          	action.id == "org.freedesktop.login1.power-off-multiple-sessions" ||
-          	action.id == "org.freedesktop.login1.suspend" ||
-          	action.id == "org.freedesktop.login1.suspend-multiple-sessions" ||
-          	action.id == "org.freedesktop.login1.hibernate" ||
-          	action.id == "org.freedesktop.login1.hibernate-multiple-sessions") && subject.isInGroup("power"))
-     	{
-     	return polkit.Result.YES;
-     	}
- 	})' | tee -a /etc/polkit-1/rules.d/*.rules >/dev/null
- 	
-	#Change shell to zsh
-	chsh -s /bin/zsh $user
-
-	echo "
-	\rService managing completed!
-	\n====================================================\n"
-	sleep 2
+	echo "=======================Service configuration is complete!=======================\n"
+	sleep 1
 }
 
 #Run command as non root user
-nr() {
+as_user() {
 	runuser -u $user -- $1
 }
 
 start_installation() {
-	echo "Start installation...\n"
+	echo "\n===============================Start installation===============================\n"
 	sleep 1
 
-	check_env
+	check_path_var
 	check_for_updates
-	create_dirs
+	create_user_dir
 	copy_user_files
 	install_repo_packages
 	install_external_packages
-	manage_services
+	configure_services
 	clean_up
 	
 	echo "Installation completed, reboot now? [y/N]:"
@@ -333,19 +349,13 @@ start_installation() {
 }
 
 reboot_system() {
-	echo "
-	\r====================================================
-	\nReboot in progress...
-	\n====================================================\n"
-	sleep 2
+	echo "\n====================================Rebooting==================================="
+	sleep 1
 	reboot
 }
 
 quit_installation() {
-	echo "
-	\r====================================================
-	\nQuit installation...
-	\n====================================================\n"
+	echo "\n==============================Quit the installation============================="
 	exit
 }
 
