@@ -20,7 +20,7 @@ check_condition() {
 check_path_var() {
 	echo "===============================PATH variable check==============================\n"
 	sleep 1
-	
+
 	e="$(sudo -Hiu $user env | grep ^PATH)"
 	#If user have PATH variable proceed with the installation
 	case $e in
@@ -34,7 +34,7 @@ check_path_var() {
 			\r#         (this will be done automatically)         #
 			\r#   you will need to log in and rerun the script.   #
 			\r#===================================================#
-			
+
 			\r             [Press Enter to continue]             
 			"
 			##Set PATH variable
@@ -61,9 +61,9 @@ check_path_var() {
 check_for_updates() {
 	echo "================================Check for updates===============================\n"
 	sleep 1
-	
+
 	xbps-install -Syu
-	
+
 	echo "==============================System files updated!=============================\n"
 	sleep 1
 }
@@ -71,7 +71,7 @@ check_for_updates() {
 clean_up() {
 	echo "===================================Cleaning up==================================\n"
 	sleep 1
-	
+
 	rm $home/Downloads/BitsNPicas.jar
 	rm $home/Downloads/BreezeX_Cursor.tar.gz
 	rm $home/Downloads/jdk17.tar.gz
@@ -89,7 +89,7 @@ clean_up() {
 copy_user_files() {
 	echo "===============================Copying user files===============================\n"
 	sleep 1
-	
+
 	as_user "cp -r $dir/home/. $home"
 	cp $dir/home/.config/wallpapers/wallpapers.png /etc/lightdm/ && cp -r $dir/dm/. /etc/lightdm/
 
@@ -100,14 +100,14 @@ copy_user_files() {
 create_user_dir() {
 	echo "============================Creating user directories===========================\n"
 	sleep 1
-	
+
 	cd $home
 	as_user "mkdir Downloads"
 	as_user "mkdir Screenshots"
 	as_user "mkdir Screenrecs"
 	as_user "mkdir .icons"
 	as_user "mkdir .jdks"
-	
+
 	echo "======================User directory creation is complete!======================\n"
 	sleep 1
 }
@@ -116,24 +116,24 @@ init() {
 echo "
     ██╗   ██╗ ██████╗ ██╗██████╗     ██╗     ██╗███╗   ██╗██╗   ██╗██╗  ██╗
     ██║   ██║██╔═══██╗██║██╔══██╗    ██║     ██║████╗  ██║██║   ██║╚██╗██╔╝
-    ██║   ██║██║   ██║██║██║  ██║    ██║     ██║██╔██╗ ██║██║   ██║ ╚███╔╝ 
-    ╚██╗ ██╔╝██║   ██║██║██║  ██║    ██║     ██║██║╚██╗██║██║   ██║ ██╔██╗ 
+    ██║   ██║██║   ██║██║██║  ██║    ██║     ██║██╔██╗ ██║██║   ██║ ╚███╔╝
+    ╚██╗ ██╔╝██║   ██║██║██║  ██║    ██║     ██║██║╚██╗██║██║   ██║ ██╔██╗
      ╚████╔╝ ╚██████╔╝██║██████╔╝    ███████╗██║██║ ╚████║╚██████╔╝██╔╝ ██╗
       ╚═══╝   ╚═════╝ ╚═╝╚═════╝     ╚══════╝╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝
-                                                                           
-                    ██████╗  ██████╗ ████████╗███████╗                     
-                    ██╔══██╗██╔═══██╗╚══██╔══╝██╔════╝                     
-                    ██║  ██║██║   ██║   ██║   ███████╗                     
-                    ██║  ██║██║   ██║   ██║   ╚════██║                     
-                    ██████╔╝╚██████╔╝   ██║   ███████║                     
-                    ╚═════╝  ╚═════╝    ╚═╝   ╚══════╝                     
-                                                                           
-    ██╗███╗   ██╗███████╗████████╗ █████╗ ██╗     ██╗     ███████╗██████╗  
-    ██║████╗  ██║██╔════╝╚══██╔══╝██╔══██╗██║     ██║     ██╔════╝██╔══██╗ 
-    ██║██╔██╗ ██║███████╗   ██║   ███████║██║     ██║     █████╗  ██████╔╝ 
-    ██║██║╚██╗██║╚════██║   ██║   ██╔══██║██║     ██║     ██╔══╝  ██╔══██╗ 
-    ██║██║ ╚████║███████║   ██║   ██║  ██║███████╗███████╗███████╗██║  ██║ 
-    ╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝ 
+
+                    ██████╗  ██████╗ ████████╗███████╗
+                    ██╔══██╗██╔═══██╗╚══██╔══╝██╔════╝
+                    ██║  ██║██║   ██║   ██║   ███████╗
+                    ██║  ██║██║   ██║   ██║   ╚════██║
+                    ██████╔╝╚██████╔╝   ██║   ███████║
+                    ╚═════╝  ╚═════╝    ╚═╝   ╚══════╝
+
+    ██╗███╗   ██╗███████╗████████╗ █████╗ ██╗     ██╗     ███████╗██████╗
+    ██║████╗  ██║██╔════╝╚══██╔══╝██╔══██╗██║     ██║     ██╔════╝██╔══██╗
+    ██║██╔██╗ ██║███████╗   ██║   ███████║██║     ██║     █████╗  ██████╔╝
+    ██║██║╚██╗██║╚════██║   ██║   ██╔══██║██║     ██║     ██╔══╝  ██╔══██╗
+    ██║██║ ╚████║███████║   ██║   ██║  ██║███████╗███████╗███████╗██║  ██║
+    ╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝
 "
 	sleep 1
 	echo "Do you want to continue? [y/N]:"
@@ -143,7 +143,7 @@ echo "
 install_repo_packages() {
 	echo "==================Installing packages from the main repository==================\n"
 	sleep 1
-	
+
 	xbps-install -Sy \
 	alacritty alsa-plugins-pulseaudio bspwm chrony clipit curl dbus dbus-devel dbus-libs dbus-x11 \
 	docker docker-compose dunst elogind exa feh ffmpeg firefox flameshot font-awesome6 gcc htop \
@@ -186,10 +186,10 @@ install_external_packages() {
 	--output $home/Downloads/jdk17.tar.gz"
 	as_user "tar xfv $home/Downloads/jdk17.tar.gz -C $home/.jdks"
 	as_user "ln -s $home/.jdks/jdk* $home/.jdks/default"
-	
+
 	#Install JetBrainsMono font
 	as_user "curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh" | as_user bash
-	
+
 	#Install scientifica font
 	as_user "git clone https://github.com/Computer-M/scientifica.git $home/Downloads/scientifica"
 	as_user "curl -L \
@@ -200,7 +200,7 @@ install_external_packages() {
 	as_user "java -jar $home/Downloads/BitsNPicas.jar \
 	convertbitmap -f ttf -o $home/.local/share/fonts/scientifica.ttf \
 	$home/Downloads/scientifica/src/scientifica.sfd"
-	
+
 	#Install SourceCodePro (Nerd patched) font
 	as_user "curl -L \
 	https://github.com/ryanoasis/nerd-fonts/releases/latest/download/SourceCodePro.tar.xz \
@@ -211,7 +211,7 @@ install_external_packages() {
 	as_user "pipx install meson"
 	as_user "pipx install ninja"
 	as_user "pipx ensurepath"
-	
+
 	#Install compfy
 	as_user "git clone https://github.com/allusive-dev/compfy.git $home/Downloads/compfy"
 	cd $home/Downloads/compfy \
@@ -305,7 +305,7 @@ install_external_packages() {
 configure_services() {
 	echo "==============================Configuring services==============================\n"
 	sleep 1
-	
+
 	#Autostart settings
 	ln -s /etc/sv/chronyd /var/service/
 	ln -s /etc/sv/containerd /var/service/
@@ -343,7 +343,7 @@ start_installation() {
 	install_external_packages
 	configure_services
 	clean_up
-	
+
 	echo "Installation completed, reboot now? [y/N]:"
 	check_condition reboot_system quit_installation  
 }
