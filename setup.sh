@@ -18,24 +18,24 @@ check_condition() {
 }
 
 check_path_var() {
-	echo "===============================PATH variable check==============================\n"
+	echo "===============================PATH variable check=============================="
 	sleep 1
 
 	e="$(sudo -Hiu $user env | grep ^PATH)"
 	#If user have PATH variable proceed with the installation
 	case $e in
 		*$home/.local/bin*|*$home/.jdks/default/bin*)
-		echo "PATH variable is OK\n";
+		echo "\nPATH variable is OK\n";
 		;;
 		*)
 		echo "
-			\r#===================================================#
-			\r#   PATH variable needs to be updated to continue   #
-			\r#         (this will be done automatically)         #
-			\r#   you will need to log in and rerun the script.   #
-			\r#===================================================#
+			\r#================================================================================#
+			\r#                  PATH variable needs to be updated to continue                 #
+			\r#                        (this will be done automatically)                       #
+			\r#                  you will need to log in and rerun the script.                 #
+			\r#================================================================================#
 
-			\r             [Press Enter to continue]
+			\r                            [Press Enter to continue]
 			"
 			##Set PATH variable
 			read input
@@ -64,7 +64,7 @@ check_for_updates() {
 
 	xbps-install -Syu
 
-	echo "==============================System files updated!=============================\n"
+	echo "\n==============================System files updated!=============================\n"
 	sleep 1
 }
 
@@ -154,7 +154,7 @@ install_repo_packages() {
 	unzip uthash xcb-util-image xcb-util-image-devel xcb-util-renderutil xcb-util-renderutil-devel \
 	xdg-utils xdotool xorg xscreensaver zsh
 
-	echo "===========Installation packages from the main repository is complete!==========\n"
+	echo "\n===========Installation packages from the main repository is complete!==========\n"
 	sleep 1
 }
 
@@ -164,8 +164,6 @@ install_external_packages() {
 
 	#Install ohmyzsh
 	as_user "curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh" | as_user bash --unattended
-	##Change shell to zsh
-	chsh -s /bin/zsh $user
 
 	#Install Breeze Light cursor
 	as_user "curl -L \
@@ -298,7 +296,7 @@ install_external_packages() {
 	##Install the color schemes
 	as_user "cp -R $home/Downloads/lite-xl-colors/colors $home/.config/lite-xl"
 
-	echo "=================Installation of external packages is complete!=================\n"
+	echo "\n=================Installation of external packages is complete!=================\n"
 	sleep 1
 }
 
