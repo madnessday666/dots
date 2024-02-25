@@ -35,7 +35,7 @@ check_path_var() {
 			\r#   you will need to log in and rerun the script.   #
 			\r#===================================================#
 
-			\r             [Press Enter to continue]             
+			\r             [Press Enter to continue]
 			"
 			##Set PATH variable
 			read input
@@ -53,7 +53,7 @@ check_path_var() {
 			kill $pid
 			;;
 	esac
-	
+
 	echo "========================PATH variable check is complete!========================\n"
 	sleep 1
 }
@@ -345,7 +345,7 @@ start_installation() {
 	clean_up
 
 	echo "Installation completed, reboot now? [y/N]:"
-	check_condition reboot_system quit_installation  
+	check_condition reboot_system quit_installation
 }
 
 reboot_system() {
