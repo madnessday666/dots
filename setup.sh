@@ -34,11 +34,11 @@ check_path_var() {
 		;;
 		*)
 		echo "
-			\r#================================================================================#
-			\r#                  PATH variable needs to be updated to continue                 #
-			\r#                        (this will be done automatically)                       #
-			\r#                  you will need to log in and rerun the script.                 #
-			\r#================================================================================#
+			\r#==============================================================================#
+			\r#                 PATH variable needs to be updated to continue                #
+			\r#                       (this will be done automatically)                      #
+			\r#                 you will need to log in and rerun the script.                #
+			\r#==============================================================================#
 
 			\r                            [Press Enter to continue]
 			"
@@ -56,6 +56,7 @@ check_path_var() {
 			##Logout
 			pid="$(who -u | awk '{print $6}')"
 			kill $pid
+			exit
 			;;
 	esac
 
@@ -96,7 +97,7 @@ copy_user_files() {
 	sleep 1
 
 	as_user "cp -r $dir/home/. $home"
-	cp $dir/home/.config/wallpapers/wallpapers.png /etc/lightdm/ && cp -r $dir/dm/. /etc/lightdm/
+	cp $home/.config/wallpapers/wallpapers.png /etc/lightdm && cp -r $dir/dm/. /etc/lightdm
 
 	echo "=======================Сopying of user files is complete!=======================\n"
 	sleep 1
@@ -141,7 +142,7 @@ echo "
     ╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝
 "
 	sleep 1
-	echo "Do you want to continue? [y/N]:"
+	echo "                       Do you want to continue? [y/N]:"
 	check_condition start_installation quit_installation
 }
 
@@ -170,7 +171,10 @@ install_external_packages() {
 	#Install ohmyzsh
 	as_user "curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh" | as_user bash --unattended
 	as_user "mv $home/my.zsh-theme $home/.oh-my-zsh/themes"
-	
+	as_user "mv $home/.zshrc.pre-oh-my-zsh $home/.zshrc"
+	##Change shell to zsh
+	chsh -s /bin/zsh $user
+
 	#Install Breeze Light cursor
 	as_user "curl -L \
 	"$(curl -fsSL https://api.github.com/repos/ful1e5/BreezeX_Cursor/releases/latest \
