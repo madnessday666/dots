@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 user="$(logname)"
 home=$(sudo -u "$user" sh -c 'echo $HOME')
 dir="$(dirname "$(readlink -f "$0")")"
@@ -20,48 +21,6 @@ check_condition() {
 			break
 		fi
 	done
-}
-
-check_path_var() {
-	echo "===============================PATH variable check=============================="
-	sleep 1
-
-	e="$(sudo -Hiu $user env | grep ^PATH)"
-	#If user have PATH variable proceed with the installation
-	case $e in
-		*$home/.local/bin*|*$home/.jdks/default/bin*)
-		echo "\nPATH variable is OK\n";
-		;;
-		*)
-		echo "
-			\r#==============================================================================#
-			\r#                 PATH variable needs to be updated to continue                #
-			\r#                       (this will be done automatically)                      #
-			\r#                 you will need to log in and rerun the script.                #
-			\r#==============================================================================#
-
-			\r                            [Press Enter to continue]
-			"
-			##Set PATH variable
-			read input
-				if [ ! -f $home/.bashrc ]; then
-					as_user "echo -e \
-					#!/bin/bash\n\nexport $e:$home/.local/bin:$home/.jdks/default/bin" \
-					tee -a $home/.bashrc >/dev/null
-						else
-					as_user "echo -e \
-					\nexport $e:$home/.local/bin:$home/.jdks/default/bin" \
-					| tee -a $home/.bashrc >/dev/null
-				fi
-			##Logout
-			pid="$(who -u | awk '{print $6}')"
-			kill $pid
-			exit
-			;;
-	esac
-
-	echo "========================PATH variable check is complete!========================\n"
-	sleep 1
 }
 
 check_for_updates() {
@@ -92,6 +51,40 @@ clean_up() {
 	sleep 1
 }
 
+configure_path_var() {
+	echo "===========================PATH variable configuration==========================\n"
+	sleep 1
+
+	export PATH=$PATH:$home/.local/bin:$home/.jdks/default/bin
+
+	echo "====================PATH variable configuration is complete!====================\n"
+	sleep 1
+}
+
+configure_services() {
+	echo "==============================Configuring services==============================\n"
+	sleep 1
+
+	#Autostart settings
+	ln -s /etc/sv/chronyd /var/service/
+	ln -s /etc/sv/containerd /var/service/
+	ln -s /etc/sv/dbus /var/service/
+	ln -s /etc/sv/docker /var/service/
+	ln -s /etc/sv/elogind /var/service/
+	ln -s /etc/sv/lightdm /var/service/
+	ln -s /etc/sv/NetworkManager /var/service/
+	ln -s /etc/sv/polkitd /var/service/
+
+	#Remove conflicting services
+	cd /var/service
+	rm -rf acpid
+	rm -rf wpa_supplicant
+	rm -rf dhcpcd*
+
+	echo "=======================Service configuration is complete!=======================\n"
+	sleep 1
+}
+
 copy_user_files() {
 	echo "===============================Copying user files===============================\n"
 	sleep 1
@@ -119,7 +112,7 @@ create_user_dir() {
 }
 
 init() {
-echo "
+	echo "
     ██╗   ██╗ ██████╗ ██╗██████╗     ██╗     ██╗███╗   ██╗██╗   ██╗██╗  ██╗
     ██║   ██║██╔═══██╗██║██╔══██╗    ██║     ██║████╗  ██║██║   ██║╚██╗██╔╝
     ██║   ██║██║   ██║██║██║  ██║    ██║     ██║██╔██╗ ██║██║   ██║ ╚███╔╝
@@ -146,24 +139,6 @@ echo "
 	check_condition start_installation quit_installation
 }
 
-install_repo_packages() {
-	echo "==================Installing packages from the main repository==================\n"
-	sleep 1
-
-	xbps-install -Sy \
-	alacritty alsa-plugins-pulseaudio bspwm chrony clipit curl dbus dbus-devel dbus-libs dbus-x11 \
-	docker docker-compose dunst elogind exa feh ffmpeg firefox flameshot font-awesome6 gcc htop \
-	libconfig libconfig-devel libconfig++ libconfig++-devel libev libev-devel libevdev libglvnd \
-	libglvnd-devel libX11 libX11-devel libxcb libxcb-devel libxdg-basedir lightdm lightdm-gtk3-greeter \
-	lite-xl make micro mpv neofetch NetworkManager numlockx pavucontrol pcre2 pcre2-devel pixman \
-	pixman-devel polkit polybar pulseaudio python3-pipx python3-pkgconfig ranger rofi slop sxhkd \
-	unzip uthash xcb-util-image xcb-util-image-devel xcb-util-renderutil xcb-util-renderutil-devel \
-	xdg-utils xdotool xorg xscreensaver zsh
-
-	echo "\n===========Installation packages from the main repository is complete!==========\n"
-	sleep 1
-}
-
 install_external_packages() {
 	echo "==========================Installing external packages==========================\n"
 	sleep 1
@@ -184,7 +159,7 @@ install_external_packages() {
 	#Install ranger devicons
 	as_user "git clone https://github.com/alexanderjeurissen/ranger_devicons $home/.config/ranger/plugins/ranger_devicons"
 
-		#Install meson and ninja
+	#Install meson and ninja
 	as_user "pipx install meson"
 	as_user "pipx install ninja"
 	as_user "pipx ensurepath"
@@ -309,35 +284,40 @@ install_external_packages() {
 	sleep 1
 }
 
-configure_services() {
-	echo "==============================Configuring services==============================\n"
+install_repo_packages() {
+	echo "==================Installing packages from the main repository==================\n"
 	sleep 1
 
-	#Autostart settings
-	ln -s /etc/sv/chronyd /var/service/
-	ln -s /etc/sv/containerd /var/service/
-	ln -s /etc/sv/dbus /var/service/
-	ln -s /etc/sv/docker /var/service/
-	ln -s /etc/sv/elogind /var/service/
-	ln -s /etc/sv/lightdm /var/service/
-	ln -s /etc/sv/NetworkManager /var/service/
-	ln -s /etc/sv/polkitd /var/service/
+	xbps-install -Sy \
+	alacritty alsa-plugins-pulseaudio bspwm chrony clipit curl dbus dbus-devel dbus-libs dbus-x11 \
+	docker docker-compose dunst elogind exa feh ffmpeg firefox flameshot font-awesome6 gcc htop \
+	libconfig libconfig-devel libconfig++ libconfig++-devel libev libev-devel libevdev libglvnd \
+	libglvnd-devel libX11 libX11-devel libxcb libxcb-devel libxdg-basedir lightdm lightdm-gtk3-greeter \
+	lite-xl make micro mpv neofetch NetworkManager numlockx pavucontrol pcre2 pcre2-devel pixman \
+	pixman-devel polkit polybar pulseaudio python3-pipx python3-pkgconfig ranger rofi slop sxhkd \
+	unzip uthash xcb-util-image xcb-util-image-devel xcb-util-renderutil xcb-util-renderutil-devel \
+	xdg-utils xdotool xorg xscreensaver zsh
 
-	#Remove conflicting services
-	cd /var/service
-	rm -rf acpid
-	rm -rf wpa_supplicant
-	rm -rf dhcpcd*
-
-	echo "=======================Service configuration is complete!=======================\n"
+	echo "\n===========Installation packages from the main repository is complete!==========\n"
 	sleep 1
+}
+
+quit_installation() {
+	echo "\n==============================Quit the installation============================="
+	exit
+}
+
+reboot_system() {
+	echo "\n====================================Rebooting==================================="
+	sleep 1
+	reboot
 }
 
 start_installation() {
 	echo "\n===============================Start installation===============================\n"
 	sleep 1
 
-	check_path_var
+	configure_path_var
 	check_for_updates
 	create_user_dir
 	install_repo_packages
@@ -348,17 +328,6 @@ start_installation() {
 
 	echo "Installation completed, reboot now? [y/N]:"
 	check_condition reboot_system quit_installation
-}
-
-reboot_system() {
-	echo "\n====================================Rebooting==================================="
-	sleep 1
-	reboot
-}
-
-quit_installation() {
-	echo "\n==============================Quit the installation============================="
-	exit
 }
 
 init
