@@ -170,8 +170,6 @@ install_external_packages() {
 
 	#Install ohmyzsh
 	as_user "curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh" | as_user bash --unattended
-	as_user "mv $home/my.zsh-theme $home/.oh-my-zsh/themes"
-	as_user "mv $home/.zshrc.pre-oh-my-zsh $home/.zshrc"
 	##Change shell to zsh
 	chsh -s /bin/zsh $user
 
@@ -186,6 +184,18 @@ install_external_packages() {
 	#Install ranger devicons
 	as_user "git clone https://github.com/alexanderjeurissen/ranger_devicons $home/.config/ranger/plugins/ranger_devicons"
 
+		#Install meson and ninja
+	as_user "pipx install meson"
+	as_user "pipx install ninja"
+	as_user "pipx ensurepath"
+
+	#Install compfy
+	as_user "git clone https://github.com/allusive-dev/compfy.git $home/Downloads/compfy"
+	cd $home/Downloads/compfy \
+	&& meson setup . build \
+	&& ninja -C build \
+	&& ninja -C build install
+
 	#Install JDK
 	as_user "curl -L \
 	"$(curl -fsSL https://api.github.com/repos/adoptium/temurin17-binaries/releases/latest \
@@ -194,7 +204,6 @@ install_external_packages() {
 	--output $home/Downloads/jdk17.tar.gz"
 	as_user "tar xfv $home/Downloads/jdk17.tar.gz -C $home/.jdks"
 	as_user "ln -s $home/.jdks/jdk* $home/.jdks/default"
-	as_user "ln -s $home/.jdks/default/bin/java $home/.local/bin"
 
 	#Install JetBrainsMono font
 	as_user "curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh" | as_user bash
@@ -216,22 +225,11 @@ install_external_packages() {
 	--output $home/Downloads/SourceCodePro.tar.xz"
 	as_user "tar xfv $home/Downloads/SourceCodePro.tar.xz -C $home/.local/share/fonts"
 
-	#Install meson and ninja
-	as_user "pipx install meson"
-	as_user "pipx install ninja"
-	as_user "pipx ensurepath"
-
-	#Install compfy
-	as_user "git clone https://github.com/allusive-dev/compfy.git $home/Downloads/compfy"
-	cd $home/Downloads/compfy \
-	&& meson setup . build \
-	&& ninja -C build \
-	&& ninja -C build install
-
 	#Install lite-xl plugins and colors
 	as_user "git clone https://github.com/lite-xl/lite-xl-plugins.git $home/Downloads/lite-xl-plugins"
 	as_user "git clone https://github.com/lite-xl/lite-xl-colors.git $home/Downloads/lite-xl-colors"
 	as_user "git clone https://github.com/adamharrison/lite-xl-terminal.git $home/Downloads/lite-xl-terminal"
+	as_user "mkdir -p $home/.config/lite-xl"
 	##Install lite-xl terminal plugin
 	as_user "cp -R $home/Downloads/lite-xl-terminal/plugins $home/.config/lite-xl"
 	as_user "curl -L \
@@ -342,10 +340,10 @@ start_installation() {
 	check_path_var
 	check_for_updates
 	create_user_dir
-	copy_user_files
 	install_repo_packages
 	install_external_packages
 	configure_services
+	copy_user_files
 	clean_up
 
 	echo "Installation completed, reboot now? [y/N]:"
