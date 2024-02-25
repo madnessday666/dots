@@ -4,6 +4,11 @@ user="$(logname)"
 home=$(sudo -u "$user" sh -c 'echo $HOME')
 dir="$(dirname "$(readlink -f "$0")")"
 
+#Run command as non root user
+as_user() {
+	runuser -u $user -- $1
+}
+
 check_condition() {
 	while [ true ]; do
 		read -r input
@@ -164,7 +169,8 @@ install_external_packages() {
 
 	#Install ohmyzsh
 	as_user "curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh" | as_user bash --unattended
-
+	as_user "mv $home/my.zsh-theme $home/.oh-my-zsh/themes"
+	
 	#Install Breeze Light cursor
 	as_user "curl -L \
 	"$(curl -fsSL https://api.github.com/repos/ful1e5/BreezeX_Cursor/releases/latest \
@@ -184,6 +190,7 @@ install_external_packages() {
 	--output $home/Downloads/jdk17.tar.gz"
 	as_user "tar xfv $home/Downloads/jdk17.tar.gz -C $home/.jdks"
 	as_user "ln -s $home/.jdks/jdk* $home/.jdks/default"
+	as_user "ln -s $home/.jdks/default/bin/java $home/.local/bin"
 
 	#Install JetBrainsMono font
 	as_user "curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh" | as_user bash
@@ -322,11 +329,6 @@ configure_services() {
 
 	echo "=======================Service configuration is complete!=======================\n"
 	sleep 1
-}
-
-#Run command as non root user
-as_user() {
-	runuser -u $user -- $1
 }
 
 start_installation() {
