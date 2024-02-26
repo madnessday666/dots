@@ -104,7 +104,6 @@ create_user_dir() {
   as_user "mkdir Downloads"
   as_user "mkdir Screenshots"
   as_user "mkdir Screenrecs"
-  as_user "mkdir .icons"
   as_user "mkdir .jdks"
 
   echo "======================User directory creation is complete!======================\n"
@@ -147,14 +146,6 @@ install_external_packages() {
   as_user "curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh" | as_user bash --unattended
   ##Change shell to zsh
   chsh -s /bin/zsh $user
-
-  #Install Breeze Light cursor
-  as_user "curl -L \
-    "$(curl -fsSL https://api.github.com/repos/ful1e5/BreezeX_Cursor/releases/latest \
-    | grep -Eo 'http.*Light*\.tar\.gz' \
-    | head -n1)" \
-  --output $home/Downloads/BreezeX_Cursor.tar.gz"
-  as_user "tar xfv $home/Downloads/BreezeX_Cursor.tar.gz -C $home/.icons"
 
   #Install ranger devicons
   as_user "git clone https://github.com/alexanderjeurissen/ranger_devicons $home/.config/ranger/plugins/ranger_devicons"
@@ -288,13 +279,13 @@ install_repo_packages() {
   sleep 1
 
   xbps-install -Sy \
-  alacritty alsa-plugins-pulseaudio bspwm chrony clipit curl dbus dbus-devel dbus-libs \
-  dbus-x11 docker docker-compose dunst elogind exa feh ffmpeg firefox flameshot font-awesome6 \
-  gcc htop libconfig libconfig-devel libconfig++ libconfig++-devel libev libev-devel libevdev \
-  libglvnd libglvnd-devel libX11 libX11-devel libxcb libxcb-devel libxdg-basedir lightdm \
-  lightdm-gtk3-greeter lite-xl make micro mpv neofetch NetworkManager numlockx pavucontrol \
-  pcre2 pcre2-devel pixman pixman-devel plata-theme polkit polybar pulseaudio python3-pipx \
-  python3-pkgconfig ranger rofi slop sxhkd unzip uthash xcb-util-image xcb-util-image-devel \
+  alacritty alsa-plugins-pulseaudio bspwm breeze-snow-cursor-theme chrony clipit curl dbus \
+  dbus-devel dbus-libs dbus-x11 docker docker-compose dunst elogind exa feh ffmpeg firefox \
+  flameshot font-awesome6 gcc htop libconfig libconfig-devel libconfig++ libconfig++-devel \
+  libev libev-devel libevdev libglvnd libglvnd-devel libX11 libX11-devel libxcb libxcb-devel \
+  libxdg-basedir lightdm lightdm-gtk3-greeter lite-xl make micro mpv neofetch NetworkManager \
+  numlockx pavucontrol pcre2 pcre2-devel pixman pixman-devel plata-theme polkit polybar pulseaudio \
+  python3-pipx python3-pkgconfig ranger rofi slop sxhkd unzip uthash xcb-util-image xcb-util-image-devel \
   xcb-util-renderutil xcb-util-renderutil-devel xdg-utils xdotool xclip xorg xscreensaver zsh
 
   echo "\n===========Installation packages from the main repository is complete!==========\n"
