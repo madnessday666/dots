@@ -28,12 +28,14 @@ else
 fi
 
 rm $HOME/.config/alacritty/alacritty.toml
+rm $HOME/.config/dunst/dunstrc
 rm $HOME/.config/gtk-3.0/settings.ini
 rm $HOME/.config/polybar/config.ini
 rm $HOME/.config/rofi/theme.rasi
 rm $HOME/.config/wallpapers/wallpapers.png
 
 ln -s $dir/themes/$theme/alacritty.toml $HOME/.config/alacritty/alacritty.toml
+ln -s $dir/themes/$theme/dunstrc $HOME/.config/dunst/dunstrc
 ln -s $dir/themes/$theme/settings.ini $HOME/.config/gtk-3.0/settings.ini
 ln -s $dir/themes/$theme/theme.rasi $HOME/.config/rofi/theme.rasi
 ln -s $dir/themes/$theme/config.ini $HOME/.config/polybar/config.ini

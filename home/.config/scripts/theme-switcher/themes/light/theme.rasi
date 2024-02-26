@@ -10,9 +10,9 @@ configuration {
   font: "scientifica 8";
 
   foreground:            #2e2e2e;
-  background:            #f2f2f2;
+  background:            #d4e1e5;
   accent:                #2e2e2e;
-  foreground-selection:  #f2f2f2;
+  foreground-selection:  #d4e1e5;
   background-selection:  #2e2e2e;
 
   transparent:                  #ffffff00;
@@ -49,9 +49,6 @@ window {
   border-radius:     10px 10px 10px 10px;
   width:             400px;
   height:            250px;
-/* location:         northwest;
-  x-offset:          10;
-  y-offset:          45;*/
 }
 
 mainbox {
