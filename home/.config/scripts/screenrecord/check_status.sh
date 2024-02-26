@@ -1,7 +1,7 @@
 #!/bin/bash
 
-WHITE='#dfdfdf'
-RED='#b2535b'
+PRIMARY=$(cat $HOME/.config/polybar/config.ini | grep foreground | head -n 1 | sed 's/foreground\s=\s//')
+RED=$(cat $HOME/.config/polybar/config.ini | grep alert | head -n 1 | sed 's/alert\s=\s//')
 YELLOW='#aaaa55'
 DIR="$(dirname "$(readlink -f "$0")")"
 STATUS=
@@ -17,7 +17,7 @@ if [ ! -e "$DIR/status" ]; then
 		echo "%{F$YELLOW} %{F-}"
 	elif [ ! "$(pidof parec)" ] && [ -z "$(ls $HOME/.cache/recs)" ]; then
     	sed -i 's/.*/idle/' $DIR/status
-		echo "%{F$WHIE} %{F-}"
+		echo "%{F$PRIMARY} %{F-}"
 	fi
 else
 	STATUS="$(cat $DIR/status)"
@@ -26,12 +26,12 @@ else
 	elif [ $STATUS = 'render' ]; then
 		if [ ! "$(pidof ffmpeg)" ] && [ -z "$(ls $HOME/.cache/recs)" ]; then
 			sed -i 's/.*/idle/' $DIR/status
-			echo "%{F$WHITE} %{F-}"
+			echo "%{F$PRIMARY} %{F-}"
 		else
 			echo "%{F$YELLOW} %{F-}"
 		fi
 	else
-	echo "%{F$WHITE} %{F-}"
+	echo "%{F$PRIMARY} %{F-}"
 	fi
 fi
 

@@ -40,6 +40,10 @@ super + d
 super + l
 	xscreensaver-command -lock
 
+# theme switcher
+super + shift + t
+	bash ~/.config/scripts/theme-switcher/theme_switcher.sh
+
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -USR1 -x sxhkd

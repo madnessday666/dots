@@ -9,11 +9,11 @@ configuration {
 *{
   font: "scientifica 8";
 
-  foreground:            #f2f2f2;
-  background:            #2e2e2e;
-  accent:                #f2f2f2;
-  foreground-selection:  #2e2e2e;
-  background-selection:  #f2f2f2;
+  foreground:            #2e2e2e;
+  background:            #f2f2f2;
+  accent:                #2e2e2e;
+  foreground-selection:  #f2f2f2;
+  background-selection:  #2e2e2e;
 
   transparent:                  #ffffff00;
   background-color:             @transparent;

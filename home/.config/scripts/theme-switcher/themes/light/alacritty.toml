@@ -10,28 +10,28 @@
 
 
 [colors.bright]
-black = "#717a80"
-blue = "#b8e3ff"
-cyan = "#a1f8ef"
-green = "#b9ffc4"
-magenta = "#ffaad2"
-red = "#e67e80"
-white = "#f0f0f0"
-yellow = "#ffd88a"
+black = "#2e2e2e"
+blue = "#007acc"
+cyan = "#0ebeac"
+green = "#00cc1f"
+magenta = "#cc005f"
+red = "#ab2123"
+white = "#cccccc"
+yellow = "#cc8800"
 
 [colors.normal]
-black = "#717a80"
-blue = "#b8e3ff"
-cyan = "#a1f8ef"
-green = "#b9ffc4"
-magenta = "#ffaad2"
-red = "#e67e80"
-white = "#f0f0f0"
-yellow = "#ffd88a"
+black = "#2e2e2e"
+blue = "#007acc"
+cyan = "#0ebeac"
+green = "#00cc1f"
+magenta = "#cc005f"
+red = "#ab2123"
+white = "#cccccc"
+yellow = "#cc8800"
 
 [colors.primary]
-background = "#0e0e0e"
-foreground = "#f2f2f2"
+background = "#f2f2f2"
+foreground = "#0e0e0e"
 
 
 #  $██████╗$██████╗$███╗$$$██╗███████╗██╗$██████╗$
