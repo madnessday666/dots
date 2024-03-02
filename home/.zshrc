@@ -19,6 +19,7 @@ source $HOME/.bashrc
 source $ZSH/oh-my-zsh.sh
 
 alias idea="$HOME/IntellijIdea/bin/idea.sh & disown && exit"
+alias clion="$HOME/Clion/bin/clion.sh & disown && exit"
 alias i="sudo xbps-install -S"
 alias r="sudo xbps-remove -R"
 alias q="xbps-query -Rs"
