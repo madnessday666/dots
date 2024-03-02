@@ -9,7 +9,7 @@
   ignore_newline = no
   origin = top-right 
   offset = 10x45
-  transparency = 40
+  transparency = 10
   idle_threshold = 120
   monitor = 0
   follow = mouse
@@ -18,27 +18,27 @@
   separator_height = 1
   padding = 10
   horizontal_padding = 10
-  separator_color = "#bfbfbf"
   show_indicators = no
   dmenu = /usr/bin/dmenu -p dunst
   icon_position = left
-  frame_color = "#dfdfdf"
-  separator_color = "#dfdfdf"
   frame_width = 1
   corner_radius = 12
   width = (1,400)
 
+
 [urgency_low]
-  background = "#121212"
-  foreground = "#f2f2f2"
+  background = "#2c2c2c"
+  foreground = "#e0e0e0"
   timeout = 700 ms
 
+
 [urgency_normal]
-  background = "#121212"
-  foreground = "#f2f2f2"
+  background = "#2c2c2c"
+  foreground = "#e0e0e0"
   timeout = 3 s
+
 
 [urgency_critical]
   background = "#dd3300"
-  foreground = "#f2f2f2"
+  foreground = "#e0e0e0"
   timeout = 15 s

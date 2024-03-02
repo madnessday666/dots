@@ -32,8 +32,8 @@ fi
 ln -sf $dir/themes/$theme/alacritty.toml $HOME/.config/alacritty/alacritty.toml
 ln -sf $dir/themes/$theme/dunstrc $HOME/.config/dunst/dunstrc
 ln -sf $dir/themes/$theme/settings.ini $HOME/.config/gtk-3.0/settings.ini
-ln -sf $dir/themes/$theme/theme.rasi $HOME/.config/rofi/theme.rasi
-ln -sf $dir/themes/$theme/config.ini $HOME/.config/polybar/config.ini
+ln -sf $dir/themes/$theme/colors.rasi $HOME/.config/rofi/colors.rasi
+ln -sf $dir/themes/$theme/colors.ini $HOME/.config/polybar/colors.ini
 ln -sf $dir/themes/$theme/wallpapers.png $HOME/.config/wallpapers/wallpapers.png
 
 bspc wm -r

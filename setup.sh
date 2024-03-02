@@ -285,8 +285,8 @@ install_repo_packages() {
 
   xbps-install -Sy \
   alacritty alsa-plugins-pulseaudio bspwm breeze-obsidian-cursor-theme breeze-snow-cursor-theme \
-  chrony clipit curl dbus dbus-devel dbus-libs dbus-x11 docker docker-compose dunst elogind exa \
-  feh ffmpeg firefox flameshot font-awesome6 gcc gpgme htop libconfig libconfig-devel libconfig++ \
+  btop chrony clipit curl dbus dbus-devel dbus-libs dbus-x11 docker docker-compose dunst elogind \
+  exa feh ffmpeg firefox flameshot font-awesome6 gcc gpgme libconfig libconfig-devel libconfig++ \
   libconfig++-devel libev libev-devel libevdev libglvnd libglvnd-devel libX11 libX11-devel libxcb \
   libxcb-devel libxdg-basedir lightdm lightdm-gtk3-greeter lite-xl make micro mpv neofetch \
   NetworkManager numlockx pavucontrol pcre2 pcre2-devel pixman pixman-devel polkit polybar \

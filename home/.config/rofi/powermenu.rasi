@@ -1,0 +1,45 @@
+@import "colors.rasi"
+
+configuration {
+  font:                             "System 20";
+  hover-select:                     true;
+}
+
+window {
+  location:                         Northeast;
+  width:                            10%;
+  background-color:                 @transparent;
+  transparency:                     "real";
+  children:                         [listview];
+}
+
+listview {
+  spacing:                          15px;
+  lines:                            5;
+  layout:                           vertical;
+  children:                         [element];
+  background-color:                 @transparent;
+}
+
+element {
+  text-color:                         @foreground;
+  border:                           1px solid;
+  border-color:                     @foreground;
+  border-radius:                    10px;
+  background-color:                 @background;
+  children:                         [element-text];
+}
+
+element-text {
+  text-color:                       inherit;
+  vertical-align:                   0.5;
+  horizontal-align:                 0.5;
+  background-color:                 @transparent;
+}
+
+element.selected {
+  border:                           1px solid;
+  border-color:                     @background;
+  text-color:                       @background;
+  background-color:                 @background-selection;
+}

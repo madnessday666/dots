@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PRIMARY=$(cat $HOME/.config/polybar/config.ini | grep foreground | head -n 1 | sed 's/foreground\s=\s//')
-RED=$(cat $HOME/.config/polybar/config.ini | grep alert | head -n 1 | sed 's/alert\s=\s//')
+PRIMARY=$(cat $HOME/.config/polybar/colors.ini | grep foreground | head -n 1 | sed 's/foreground\s=\s//')
+RED=$(cat $HOME/.config/polybar/colors.ini | grep alert | head -n 1 | sed 's/alert\s=\s//')
 YELLOW='#aaaa55'
 DIR="$(dirname "$(readlink -f "$0")")"
 STATUS=

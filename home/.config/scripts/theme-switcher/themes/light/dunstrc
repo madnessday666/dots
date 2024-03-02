@@ -18,27 +18,27 @@
   separator_height = 1
   padding = 10
   horizontal_padding = 10
-  separator_color = "#d4e1e5"
   show_indicators = no
   dmenu = /usr/bin/dmenu -p dunst
   icon_position = left
-  frame_color = "#2e2e2e"
-  separator_color = "#d4e1e5"
   frame_width = 1
   corner_radius = 12
   width = (1,400)
 
+
 [urgency_low]
-  background = "#d4e1e5"
-  foreground = "#2e2e2e"
+  background = "#e0e0e0"
+  foreground = "#2c2c2c"
   timeout = 700 ms
 
+
 [urgency_normal]
-  background = "#d4e1e5"
-  foreground = "#2e2e2e"
+  background = "#e0e0e0"
+  foreground = "#2c2c2c"
   timeout = 3 s
+
 
 [urgency_critical]
   background = "#dd3300"
-  foreground = "#2e2e2e"
+  foreground = "#2c2c2c"
   timeout = 15 s

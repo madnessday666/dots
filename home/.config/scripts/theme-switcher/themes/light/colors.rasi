@@ -1,0 +1,8 @@
+*{
+  background:            #e0e0e0;
+  background-selection:  #2c2c2c;
+  bordercolor:           #2c2c2c20;
+  foreground:            #2c2c2c;
+  foreground-selection:  #e0e0e0;
+  transparent:           #00000000;
+}

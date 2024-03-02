@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 AUDIO_DEVICE=
 AUDIO_SETTINGS=
 DIR="$(dirname "$(readlink -f "$0")")"
