@@ -15,7 +15,7 @@ if [ -z $theme ]; then
   exit
 fi
 
-if [ ! -f $HOME/.config/micro/settings.json ]; then
+if [ ! -f $HOME/.config/micro/settings.json || echo $(cat $HOME/.config/micro/settings.json) = '{}']; then
   echo '{
     "colorscheme": "default"
 }' | tee $HOME/.config/micro/settings.json >/dev/null
