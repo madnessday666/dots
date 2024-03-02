@@ -9,13 +9,14 @@ configuration {
 *{
   font: "scientifica 8";
 
-  foreground:            #2e2e2e;
-  background:            #d4e1e5;
-  accent:                #2e2e2e;
-  foreground-selection:  #d4e1e5;
-  background-selection:  #2e2e2e;
+  foreground:            #2c2c2c;
+  background:            #e0e0e0;
+  accent:                #2c2c2c;
+  foreground-selection:  #e0e0e0;
+  background-selection:  #2c2c2c;
+  bordercolor:           #2c2c2c20;
 
-  transparent:                  #ffffff00;
+  transparent:                  #00000000;
   background-color:             @transparent;
   text-color:                   @foreground;
   selected-normal-foreground:   @foreground-selection;
@@ -28,7 +29,6 @@ configuration {
   selected-active-foreground:   @background-selection;
   alternate-normal-foreground:  @foreground;
   alternate-active-background:  @background;
-  bordercolor:                  @background;
   normal-background:            @transparent;
   selected-normal-background:   @background-selection;
   separatorcolor:               @accent;
@@ -45,7 +45,7 @@ window {
   background-color:  @background;
   text-color:        @foreground;
   border:            1px 1px 1px 1px;
-  border-color:      @background-selection;
+  border-color:      @bordercolor;
   border-radius:     10px 10px 10px 10px;
   width:             400px;
   height:            250px;

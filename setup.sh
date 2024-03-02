@@ -42,6 +42,7 @@ clean_up() {
   rm $home/Downloads/jdk17.tar.gz
   rm $home/Downloads/SourceCodePro.tar.xz
   rm -r -f $home/Downloads/compfy
+  rm -r -f $home/Downloads/Graphite-gtk-theme
   rm -r -f $home/Downloads/lite-xl-plugins
   rm -r -f $home/Downloads/lite-xl-colors
   rm -r -f $home/Downloads/lite-xl-terminal
@@ -190,6 +191,10 @@ install_external_packages() {
   --output $home/Downloads/SourceCodePro.tar.xz"
   as_user "tar xfv $home/Downloads/SourceCodePro.tar.xz -C $home/.local/share/fonts"
 
+  #Install Grpahite-gtk-theme
+  as_user "git clone https://github.com/vinceliuice/Graphite-gtk-theme.git $home/Downloads/Graphite-gtk-theme"
+  as_user "bash -c $home/Downloads/Graphite-gtk-theme/install.sh --tweaks rimless"
+
   #Install lite-xl plugins and colors
   as_user "git clone https://github.com/lite-xl/lite-xl-plugins.git $home/Downloads/lite-xl-plugins"
   as_user "git clone https://github.com/lite-xl/lite-xl-colors.git $home/Downloads/lite-xl-colors"
@@ -241,7 +246,7 @@ install_external_packages() {
       ;;
       esac
     done < "$dir/home/.config/alacritty/alacritty.toml"
-  row=$row"s/.*background = { common.color \"#.*\" },.*\s/  background = { common.color \"#303841\" },/;"
+  row=$row"s/.*background = { common.color \"#.*\" },.*\s/  background = { common.color \"#2c2c2c\" },/;"
   row=$row"s/.*\[  5\] = { common.color \"#.*\" },.*\s//;"
   row=$row"s/.*\[ 10\] = { common.color \"#.*\" },.*\s//;"
   row=$row"s/.*\[ 15\] = { common.color \"#.*\" },.*\s//;"
@@ -282,9 +287,9 @@ install_repo_packages() {
   alacritty alsa-plugins-pulseaudio bspwm breeze-obsidian-cursor-theme breeze-snow-cursor-theme \
   chrony clipit curl dbus dbus-devel dbus-libs dbus-x11 docker docker-compose dunst elogind exa \
   feh ffmpeg firefox flameshot font-awesome6 gcc htop libconfig libconfig-devel libconfig++ \
-  libconfig++-devel libev libev-devel libevdev libglvnd libglvnd-devel libX11 libX11-devel libxcb \
-  libxcb-devel libxdg-basedir lightdm lightdm-gtk3-greeter lite-xl make micro mpv neofetch \
-  NetworkManager numlockx pavucontrol pcre2 pcre2-devel pixman pixman-devel plata-theme polkit \
+  libconfig++-devel libev libev-devel libevdev libglvnd libglvnd-devel libX11 libX11-devel \
+  libxcb libxcb-devel libxdg-basedir lightdm lightdm-gtk3-greeter lite-xl make micro mpv \
+  neofetch NetworkManager numlockx pavucontrol pcre2 pcre2-devel pixman pixman-devel polkit \
   polybar pulseaudio python3-pipx python3-pkgconfig ranger rofi slop sxhkd unzip uthash \
   xcb-util-image xcb-util-image-devel xcb-util-renderutil xcb-util-renderutil-devel xdg-utils \
   xdotool xclip xorg xscreensaver zsh

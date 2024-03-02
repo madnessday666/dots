@@ -21,30 +21,20 @@ if [ ! -f $HOME/.config/micro/settings.json ]; then
 }' | tee $HOME/.config/micro/settings.json >/dev/null
 fi
 
-if [ $theme = 'dark' ];then
+if [ $theme = 'dark' ]; then
   sed -i 's/\"colorscheme\": \".*\"/"colorscheme": "atom-dark"/' $HOME/.config/micro/settings.json
+  sed -i 's/Inherits.*/Inherits=Breeze_Obsidian/' $HOME/.icons/default/index.theme
 else
   sed -i 's/\"colorscheme\": \".*\"/"colorscheme": "bubblegum"/' $HOME/.config/micro/settings.json
+  sed -i 's/Inherits.*/Inherits=Breeze_Snow/' $HOME/.icons/default/index.theme
 fi
 
-rm $HOME/.config/alacritty/alacritty.toml
-rm $HOME/.config/dunst/dunstrc
-rm $HOME/.config/gtk-3.0/settings.ini
-rm $HOME/.config/polybar/config.ini
-rm $HOME/.config/rofi/theme.rasi
-rm $HOME/.config/wallpapers/wallpapers.png
-
-ln -s $dir/themes/$theme/alacritty.toml $HOME/.config/alacritty/alacritty.toml
-ln -s $dir/themes/$theme/dunstrc $HOME/.config/dunst/dunstrc
-ln -s $dir/themes/$theme/settings.ini $HOME/.config/gtk-3.0/settings.ini
-ln -s $dir/themes/$theme/theme.rasi $HOME/.config/rofi/theme.rasi
-ln -s $dir/themes/$theme/config.ini $HOME/.config/polybar/config.ini
-ln -s $dir/themes/$theme/wallpapers.png $HOME/.config/wallpapers/wallpapers.png
-
-for pid in `ps -ef | grep dbus-daemon | awk '{print $2}'` ; do kill $pid ; done
-pkill dbus-launch
-pkill dunst
-pkill clipit
+ln -sf $dir/themes/$theme/alacritty.toml $HOME/.config/alacritty/alacritty.toml
+ln -sf $dir/themes/$theme/dunstrc $HOME/.config/dunst/dunstrc
+ln -sf $dir/themes/$theme/settings.ini $HOME/.config/gtk-3.0/settings.ini
+ln -sf $dir/themes/$theme/theme.rasi $HOME/.config/rofi/theme.rasi
+ln -sf $dir/themes/$theme/config.ini $HOME/.config/polybar/config.ini
+ln -sf $dir/themes/$theme/wallpapers.png $HOME/.config/wallpapers/wallpapers.png
 
 bspc wm -r
 

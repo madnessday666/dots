@@ -2,7 +2,7 @@
 # Default Values
 LOCATION=3
 QRCODE_LOCATION=$LOCATION
-Y_AXIS=45
+Y_AXIS=40
 X_AXIS=-10
 RASI_DIR=$HOME/.config/rofi/theme.rasi
 NOTIFICATIONS="off"
