@@ -90,10 +90,51 @@ copy_user_files() {
   echo "===============================Copying user files===============================\n"
   sleep 1
 
-  as_user "cp -r $dir/home/. $home"
+  echo "                        What to do with the users files :\n
+  1) Copy files 
+  2) Symlink files
+  3) Show user files
+  4) Do nothing
+  "
+  while [ true ]; do
+    read -r input
+    case $input in
+      1 )
+      as_user "cp -r $dir/home/. $home"
+      break
+      ;;
+      2 )
+      #There's no point in symlinking the .icons/
+      as_user "cp -r $dir/home/.icons $home"
+      as_user "ln -sf $dir/home/.bashrc $home"
+      as_user "ln -sf $dir/home/.xinitrc $home"
+      as_user "ln -sf $dir/home/.xscreensaver $home"
+      as_user "ln -sf $dir/home/.zshrc $home"
+      as_user "ln -sf $dir/home/.oh-my-zsh/themes/* $home/.oh-my-zsh/themes"
+      dirs=$(ls -Ap $dir/home/.config)
+      for d in ${dirs}; do
+        if [ -d $home/.config/$d ]; then
+          as_user "ln -sf $dir/home/.config/$d* $home/.config/$d"
+        else
+          as_user "ln -sf $dir/home/.config/$d $home/.config"
+        fi
+      done
+      break
+      ;;
+      3 )
+      echo $(ls -Ap $dir/home/)
+      ;;
+      4 )
+      break
+      ;;
+      * )
+      echo "                               Enter valid number"
+      ;;
+    esac
+  done
   cp $home/.config/wallpapers/wallpapers.png /etc/lightdm && cp -r $dir/dm/. /etc/lightdm
 
-  echo "=======================Сopying of user files is complete!=======================\n"
+  echo "\n=======================Сopying of user files is complete!=======================\n"
   sleep 1
 }
 
@@ -112,27 +153,27 @@ create_user_dir() {
 }
 
 init() {
-  echo "
-    ██╗   ██╗ ██████╗ ██╗██████╗     ██╗     ██╗███╗   ██╗██╗   ██╗██╗  ██╗
-    ██║   ██║██╔═══██╗██║██╔══██╗    ██║     ██║████╗  ██║██║   ██║╚██╗██╔╝
-    ██║   ██║██║   ██║██║██║  ██║    ██║     ██║██╔██╗ ██║██║   ██║ ╚███╔╝
-    ╚██╗ ██╔╝██║   ██║██║██║  ██║    ██║     ██║██║╚██╗██║██║   ██║ ██╔██╗
-     ╚████╔╝ ╚██████╔╝██║██████╔╝    ███████╗██║██║ ╚████║╚██████╔╝██╔╝ ██╗
-      ╚═══╝   ╚═════╝ ╚═╝╚═════╝     ╚══════╝╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝
-
-                    ██████╗  ██████╗ ████████╗███████╗
-                    ██╔══██╗██╔═══██╗╚══██╔══╝██╔════╝
-                    ██║  ██║██║   ██║   ██║   ███████╗
-                    ██║  ██║██║   ██║   ██║   ╚════██║
-                    ██████╔╝╚██████╔╝   ██║   ███████║
-                    ╚═════╝  ╚═════╝    ╚═╝   ╚══════╝
-
-    ██╗███╗   ██╗███████╗████████╗ █████╗ ██╗     ██╗     ███████╗██████╗
-    ██║████╗  ██║██╔════╝╚══██╔══╝██╔══██╗██║     ██║     ██╔════╝██╔══██╗
-    ██║██╔██╗ ██║███████╗   ██║   ███████║██║     ██║     █████╗  ██████╔╝
-    ██║██║╚██╗██║╚════██║   ██║   ██╔══██║██║     ██║     ██╔══╝  ██╔══██╗
-    ██║██║ ╚████║███████║   ██║   ██║  ██║███████╗███████╗███████╗██║  ██║
-    ╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝
+echo "
+     ██╗   ██╗ ██████╗ ██╗██████╗     ██╗     ██╗███╗   ██╗██╗   ██╗██╗  ██╗
+     ██║   ██║██╔═══██╗██║██╔══██╗    ██║     ██║████╗  ██║██║   ██║╚██╗██╔╝
+     ██║   ██║██║   ██║██║██║  ██║    ██║     ██║██╔██╗ ██║██║   ██║ ╚███╔╝
+     ╚██╗ ██╔╝██║   ██║██║██║  ██║    ██║     ██║██║╚██╗██║██║   ██║ ██╔██╗
+      ╚████╔╝ ╚██████╔╝██║██████╔╝    ███████╗██║██║ ╚████║╚██████╔╝██╔╝ ██╗
+       ╚═══╝   ╚═════╝ ╚═╝╚═════╝     ╚══════╝╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝
+ 
+                     ██████╗  ██████╗ ████████╗███████╗
+                     ██╔══██╗██╔═══██╗╚══██╔══╝██╔════╝
+                     ██║  ██║██║   ██║   ██║   ███████╗
+                     ██║  ██║██║   ██║   ██║   ╚════██║
+                     ██████╔╝╚██████╔╝   ██║   ███████║
+                     ╚═════╝  ╚═════╝    ╚═╝   ╚══════╝
+ 
+     ██╗███╗   ██╗███████╗████████╗ █████╗ ██╗     ██╗     ███████╗██████╗
+     ██║████╗  ██║██╔════╝╚══██╔══╝██╔══██╗██║     ██║     ██╔════╝██╔══██╗
+     ██║██╔██╗ ██║███████╗   ██║   ███████║██║     ██║     █████╗  ██████╔╝
+     ██║██║╚██╗██║╚════██║   ██║   ██╔══██║██║     ██║     ██╔══╝  ██╔══██╗
+     ██║██║ ╚████║███████║   ██║   ██║  ██║███████╗███████╗███████╗██║  ██║
+     ╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝
 "
   sleep 1
   echo "                       Do you want to continue? [y/N]:"
@@ -209,44 +250,47 @@ install_external_packages() {
   while read line
     do
       case $line in
-      *black* )
-      replacement=$replacement"    \[  0\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
-      replacement=$replacement"    \[  8\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
-      ;;
-      *blue* )
-      replacement=$replacement"    \[  4\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
-      replacement=$replacement"    \[ 12\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
-      ;;
-      *cyan* )
-      replacement=$replacement"    \[  6\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
-      replacement=$replacement"    \[ 14\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
-      ;;
-      *green* )
-      replacement=$replacement"    \[  2\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
-      replacement=$replacement"    \[ 10\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
-      ;;
-      *magenta* )
-      replacement=$replacement"    \[  5\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
-      replacement=$replacement"    \[ 13\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
-      ;;
-      *red* )
-      replacement=$replacement"    \[  1\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
-      replacement=$replacement"    \[  9\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
-      ;;
-      *white* )
-      replacement=$replacement"    \[  7\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
-      replacement=$replacement"    \[ 15\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
-      ;;
-      *yellow* )
-      replacement=$replacement"    \[  3\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
-      replacement=$replacement"    \[ 11\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
-      ;;
-      *colors.normal* )
-      break
-      ;;
+        *black* )
+        replacement=$replacement"    \[  0\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
+        replacement=$replacement"    \[  8\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
+        ;;
+        *blue* )
+        replacement=$replacement"    \[  4\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
+        replacement=$replacement"    \[ 12\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
+        ;;
+        *cyan* )
+        replacement=$replacement"    \[  6\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
+        replacement=$replacement"    \[ 14\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
+        ;;
+        *green* )
+        replacement=$replacement"    \[  2\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
+        replacement=$replacement"    \[ 10\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
+        ;;
+        *magenta* )
+        replacement=$replacement"    \[  5\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
+        replacement=$replacement"    \[ 13\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
+        ;;
+        *red* )
+        replacement=$replacement"    \[  1\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
+        replacement=$replacement"    \[  9\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
+        ;;
+        *white* )
+        replacement=$replacement"    \[  7\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
+        replacement=$replacement"    \[ 15\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
+        ;;
+        *yellow* )
+        replacement=$replacement"    \[  3\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
+        replacement=$replacement"    \[ 11\] = { common.color $(echo $line | sed -E -e 's/.*(.*\"#.*).*/\1/g') },\n";
+        ;;
+        *colors.normal* )
+        break
+        ;;
       esac
-    done < "$dir/home/.config/alacritty/alacritty.toml"
-  row=$row"s/.*background = { common.color \"#.*\" },.*\s/  background = { common.color \"#2c2c2c\" },/;"
+  done < "$dir/home/.config/alacritty/alacritty.toml"
+  bgColor=$(cat $dir/themes/$theme/alacritty.toml | grep background | cut -d ' ' -f 3)
+  fgColor=$(cat $dir/themes/$theme/alacritty.toml | grep foreground | cut -d ' ' -f 3)
+  row=$row"s/.*background = { common.color \"#.*\" },.*\s/  background = { common.color $bgColor },\n/;"
+  row=$row"s/.*text = { common.color \"#.*\" },.*\s/  text = { common.color $fgColor },\n/;"
   row=$row"s/.*\[  5\] = { common.color \"#.*\" },.*\s//;"
   row=$row"s/.*\[ 10\] = { common.color \"#.*\" },.*\s//;"
   row=$row"s/.*\[ 15\] = { common.color \"#.*\" },.*\s//;"
@@ -286,13 +330,13 @@ install_repo_packages() {
   xbps-install -Sy \
   alacritty alsa-plugins-pulseaudio bspwm breeze-obsidian-cursor-theme breeze-snow-cursor-theme \
   btop chrony clipit curl dbus dbus-devel dbus-libs dbus-x11 docker docker-compose dunst elogind \
-  exa feh ffmpeg firefox flameshot font-awesome6 gcc gpgme libconfig libconfig-devel libconfig++ \
-  libconfig++-devel libev libev-devel libevdev libglvnd libglvnd-devel libX11 libX11-devel libxcb \
-  libxcb-devel libxdg-basedir lightdm lightdm-gtk3-greeter lite-xl make micro mpv neofetch \
-  NetworkManager numlockx pavucontrol pcre2 pcre2-devel pixman pixman-devel polkit polybar \
-  pulseaudio python3-pipx python3-pkgconfig ranger rofi slop sxhkd unzip uthash xcb-util-image \
-  xcb-util-image-devel xcb-util-renderutil xcb-util-renderutil-devel xdg-utils xdotool xclip \
-  xorg xscreensaver zsh
+  exa feh ffmpeg firefox flameshot font-awesome6 gcc libconfig libconfig-devel libconfig++ \
+  libconfig++-devel libev libev-devel libevdev libglvnd libglvnd-devel libX11 libX11-devel \
+  libxcb libxcb-devel libxdg-basedir lightdm lightdm-gtk3-greeter lite-xl make micro mpv \
+  neofetch NetworkManager numlockx pavucontrol pcre2 pcre2-devel pixman pixman-devel polkit \
+  polybar pulseaudio python3-pipx python3-pkgconfig ranger rofi slop sxhkd unzip uthash \
+  xcb-util-image xcb-util-image-devel xcb-util-renderutil xcb-util-renderutil-devel xdg-utils \
+  xdotool xclip xorg-minimal xscreensaver zsh
 
   echo "\n===========Installation packages from the main repository is complete!==========\n"
   sleep 1

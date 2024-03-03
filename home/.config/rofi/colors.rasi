@@ -1,1 +1,8 @@
-/home/madnessday666/dots/home/.config/scripts/theme-switcher/themes/dark/colors.rasi
+*{
+  background:            #2c2c2c;
+  background-selection:  #e0e0e0;
+  bordercolor:           #e0e0e020;
+  foreground:            #e0e0e0;
+  foreground-selection:  #2c2c2c;
+  transparent:           #00000000;
+}
