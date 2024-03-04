@@ -30,7 +30,7 @@ check_for_updates() {
   xbps-install -Syu
 
   echo "\n==============================System files updated!=============================\n"
-  sleep 1
+  sleep 2
 }
 
 clean_up() {
@@ -38,7 +38,6 @@ clean_up() {
   sleep 1
 
   rm $home/Downloads/BitsNPicas.jar
-  rm $home/Downloads/BreezeX_Cursor.tar.gz
   rm $home/Downloads/jdk17.tar.gz
   rm $home/Downloads/SourceCodePro.tar.xz
   rm -r -f $home/Downloads/compfy
@@ -48,8 +47,10 @@ clean_up() {
   rm -r -f $home/Downloads/lite-xl-terminal
   rm -r -f $home/Downloads/scientifica
 
+  xbps-remove -R sassc
+
   echo "==============================Сleanup is complete!==============================\n"
-  sleep 1
+  sleep 2 
 }
 
 configure_path_var() {
@@ -59,7 +60,7 @@ configure_path_var() {
   export PATH=$PATH:$home/.local/bin:$home/.jdks/default/bin
 
   echo "====================PATH variable configuration is complete!====================\n"
-  sleep 1
+  sleep 2
 }
 
 configure_services() {
@@ -83,7 +84,7 @@ configure_services() {
   rm -rf dhcpcd*
 
   echo "=======================Service configuration is complete!=======================\n"
-  sleep 1
+  sleep 2
 }
 
 copy_user_files() {
@@ -135,7 +136,7 @@ copy_user_files() {
   cp $home/.config/wallpapers/wallpapers.png /etc/lightdm && cp -r $dir/dm/. /etc/lightdm
 
   echo "\n=======================Сopying of user files is complete!=======================\n"
-  sleep 1
+  sleep 2
 }
 
 create_user_dir() {
@@ -146,10 +147,11 @@ create_user_dir() {
   as_user "mkdir Downloads"
   as_user "mkdir Screenshots"
   as_user "mkdir Screenrecs"
+  as_user "mkdir .ssh"
   as_user "mkdir .jdks"
 
   echo "======================User directory creation is complete!======================\n"
-  sleep 1
+  sleep 2
 }
 
 init() {
@@ -286,11 +288,11 @@ install_external_packages() {
         break
         ;;
       esac
-  done < "$dir/home/.config/alacritty/alacritty.toml"
-  bgColor=$(cat $dir/themes/$theme/alacritty.toml | grep background | cut -d ' ' -f 3)
-  fgColor=$(cat $dir/themes/$theme/alacritty.toml | grep foreground | cut -d ' ' -f 3)
-  row=$row"s/.*background = { common.color \"#.*\" },.*\s/  background = { common.color $bgColor },\n/;"
-  row=$row"s/.*text = { common.color \"#.*\" },.*\s/  text = { common.color $fgColor },\n/;"
+  done < "$dir/home/.config/scripts/theme-switcher/themes/dark/alacritty.toml"
+  bgColor=$(cat $dir/home/.config/scripts/theme-switcher/themes/dark/alacritty.toml | grep background | cut -d ' ' -f 3)
+  fgColor=$(cat $dir/home/.config/scripts/theme-switcher/themes/dark/alacritty.toml | grep foreground | cut -d ' ' -f 3)
+  row=$row"s/.*background = { common.color \"#.*\".*/  background = { common.color $bgColor },/;"
+  row=$row"s/.*text = { common.color \"#.*\".*/  text = { common.color $fgColor },/;"
   row=$row"s/.*\[  5\] = { common.color \"#.*\" },.*\s//;"
   row=$row"s/.*\[ 10\] = { common.color \"#.*\" },.*\s//;"
   row=$row"s/.*\[ 15\] = { common.color \"#.*\" },.*\s//;"
@@ -320,7 +322,7 @@ install_external_packages() {
   as_user "cp -R $home/Downloads/lite-xl-colors/colors $home/.config/lite-xl"
 
   echo "\n=================Installation of external packages is complete!=================\n"
-  sleep 1
+  sleep 2
 }
 
 install_repo_packages() {
@@ -334,12 +336,12 @@ install_repo_packages() {
   libconfig++-devel libev libev-devel libevdev libglvnd libglvnd-devel libX11 libX11-devel \
   libxcb libxcb-devel libxdg-basedir lightdm lightdm-gtk3-greeter lite-xl make micro mpv \
   neofetch NetworkManager numlockx pavucontrol pcre2 pcre2-devel pixman pixman-devel polkit \
-  polybar pulseaudio python3-pipx python3-pkgconfig ranger rofi slop sxhkd unzip uthash \
+  polybar pulseaudio python3-pipx python3-pkgconfig ranger rofi sassc slop sxhkd unzip uthash \
   xcb-util-image xcb-util-image-devel xcb-util-renderutil xcb-util-renderutil-devel xdg-utils \
-  xdotool xclip xorg-minimal xscreensaver zsh
+  xdotool xclip xorg xscreensaver zip zsh
 
   echo "\n===========Installation packages from the main repository is complete!==========\n"
-  sleep 1
+  sleep 2
 }
 
 quit_installation() {

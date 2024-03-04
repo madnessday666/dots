@@ -13,8 +13,8 @@ if [ ! -f $HOME/.config/micro/settings.json ]; then
   echo '{
     "colorscheme": "default"
 }' | tee $HOME/.config/micro/settings.json >/dev/null
-elif  [ $(cat $HOME/.config/micro/settings.json) = '{}' ]; then
-  sed -i 's/.*/{\n\"colorscheme": "default"\n}/' $HOME/.config/micro/settings.json
+elif [ "$(cat $HOME/.config/micro/settings.json)" = '{}' ]; then
+  sed -i 's/.*/{\n\"colorscheme": "default"\n}' $HOME/.config/micro/settings.json
 fi
 
 if [ $theme = 'dark' ]; then
@@ -27,8 +27,8 @@ fi
 
 bgColor=$(cat $dir/themes/$theme/alacritty.toml | grep background | cut -d ' ' -f 3)
 fgColor=$(cat $dir/themes/$theme/alacritty.toml | grep foreground | cut -d ' ' -f 3)
-row=$row"s/.*background = { common.color \"#.*\" },.*\s/  background = { common.color $bgColor },\n/;"
-row=$row"s/.*text = { common.color \"#.*\" },.*\s/  text = { common.color $fgColor },\n/;"
+row=$row"s/.*background = { common.color \"#.*\".*/  background = { common.color $bgColor },/;"
+row=$row"s/.*text = { common.color \"#.*\".*/  text = { common.color $fgColor },/;"
 while read line
     do
       case $line in
