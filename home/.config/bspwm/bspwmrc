@@ -63,7 +63,6 @@ bspc rule -a ymwp.YandexMusicWavePlayer state=floating sticky=on
 for pid in `ps -ef | grep dbus-daemon | awk '{print $2}'` ; do kill $pid ; done
 pkill dbus-launch
 pkill dunst
-pkill clipit
 
 pgrep -x sxhkd > /dev/null || sxhkd &
 bspwm -c $HOME/.config/bspwm/bspwmrc &
@@ -74,5 +73,5 @@ feh --bg-scale $HOME/.config/wallpapers/wallpapers.png &
 compfy --config=$HOME/.config/compfy/compfy.conf &
 xscreensaver --no-splash &
 xsetroot -cursor_name left_ptr &
-clipit &
+xcmenu --daemon &
 $HOME/.config/polybar/launch.sh &

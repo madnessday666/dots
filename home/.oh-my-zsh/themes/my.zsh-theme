@@ -137,7 +137,7 @@ git_prompt() {
       commits_ahead=$(\grep -c "^<" <<< "$commits_diff")
       commits_behind=$(\grep -c "^>" <<< "$commits_diff")
       upstream_prompt="$(git rev-parse --symbolic-full-name --abbrev-ref @{upstream} 2> /dev/null)"
-      upstream_prompt=$(sed -e 's/\/.*$/ ☊ /g' <<< "$upstream_prompt")
+      upstream_prompt=$(sed -e 's/\/.*$/\//g' <<< "$upstream_prompt")
     fi
 
     has_diverged=false
@@ -159,7 +159,7 @@ git_prompt() {
       mode=" >R>"
     fi
 
-    print -n "${ref/refs\/heads\// $fg[magenta]$PL_BRANCH_CHAR$upstream_prompt}$fg[white]${mode}$to_push$to_pull$clean$tagged$stashed$fg_bold[blue]$untracked$fg_bold[yellow]$modified$fg_bold[red]$deleted$fg_bold[green]$added$fg_bold[white]$ready_commit"
+    print -n "${ref/refs\/heads\// $fg[magenta]$PL_BRANCH_CHAR$upstream_prompt}$fg[white]${mode}$to_push$to_pull$clean$tagged$stashed$fg_bold[blue]$untracked$fg_bold[yellow]$modified$fg_bold[red]$deleted$fg_bold[green]$added$fg_bold[white]$ready_commit$reset_color"
   fi
 }
 
