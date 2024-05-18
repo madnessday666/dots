@@ -37,17 +37,24 @@ git_time_since_commit() {
         sub_hours=$((hours % 24))
         sub_minutes=$((minutes % 60))
 
-		if [ $month -ge 1 ]; then
+		if   [ $month -ge 12 ]; then
+			years=$((${month}/12));
+            commit_age="$fg_bold[red]${years}y"
+        elif [ $month -lt 12 ] && [ $month -ge 1 ]; then
             commit_age="$fg_bold[red]${month}M"
-        elif [ $hours -ge 24 ]; then
+        elif [ $month -lt 1 ] && [ $days -ge 7 ]; then
+            commit_age="$fg_bold[red]${days}d"
+        elif [ $days -lt 7 ] && [ $days -ge 3 ]; then
             commit_age="$fg_bold[yellow]${days}d"
-        elif [ $minutes -gt 60 ]; then
-            commit_age="$fg_bold[green]${sub_hours}h ${sub_minutes}m"
+        elif [ $days -lt 3 ] && [ $days -ge 1 ]; then
+            commit_age="$fg_bold[green]${days}d"
+        elif [ $days -lt 1 ] && [ $hours -ge 1 ]; then
+		    commit_age="$fg_bold[green]${hours}h"
         else
             commit_age="$fg_bold[green]${minutes}m"
         fi
 
-		echo " %{$reset_color%}[Last commit: $commit_age%{$reset_color%} ago]"
+		echo " %{$reset_color%}[Updated: $commit_age%{$reset_color%} ago]"
     fi
 }
 
@@ -56,7 +63,7 @@ git_prompt() {
   local PL_BRANCH_CHAR
   () {
     local LC_ALL="" LC_CTYPE="en_US.UTF-8"
-    PL_BRANCH_CHAR=""
+    PL_BRANCH_CHAR=" "
   }
   local ref dirty mode repo_path clean has_upstream
   local modified untracked added deleted tagged stashed
@@ -120,7 +127,7 @@ git_prompt() {
     fi
 
     local tag_at_current_commit=$(git describe --exact-match --tags $current_commit_hash 2> /dev/null)
-    if [[ -n $tag_at_current_commit ]]; then tagged=" ☗$tag_at_current_commit "; fi
+    if [[ -n $tag_at_current_commit ]]; then tagged="$fg[white] TAG:$tag_at_current_commit"; fi
 
     local number_of_stashes="$(git stash list -n1 2> /dev/null | wc -l)"
     if [[ $number_of_stashes -gt 0 ]]; then
@@ -166,5 +173,3 @@ git_prompt() {
 PROMPT='%(?,,%{$fg[red]%}FAIL${NEWLINE}%{$reset_color%})\
 ┌─[%F{blue}%~%f] [%F{green}%D{%H:%M:%S}%f]$(git_prompt)$(git_time_since_commit)
 └─▶ '
-
-
