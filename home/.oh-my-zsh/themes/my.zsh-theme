@@ -37,8 +37,8 @@ git_time_since_commit() {
         sub_hours=$((hours % 24))
         sub_minutes=$((minutes % 60))
 
-		if   [ $month -ge 12 ]; then
-			years=$((${month}/12));
+	if   [ $month -ge 12 ]; then
+	    years=$((${month}/12));
             commit_age="$fg_bold[red]${years}y"
         elif [ $month -lt 12 ] && [ $month -ge 1 ]; then
             commit_age="$fg_bold[red]${month}M"
