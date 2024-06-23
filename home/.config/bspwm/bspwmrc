@@ -47,7 +47,8 @@ bspc config pointer_action2             resize_corner
 #  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
-bspc rule -a Pavucontrol state=floating center=true
+bspc rule -a pavucontrol state=floating center=true rectangle=800x600+0+0
+bspc rule -a Blueman-manager state=floating center=true rectangle=800x600+0+0
 bspc rule -a lite-xl state=fullscreen
 bspc rule -a ymwp.YandexMusicWavePlayer state=floating sticky=on
 

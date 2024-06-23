@@ -36,6 +36,10 @@ super + shift + r
 super + d
 	rofi -no-lazy-grab -show drun -modi drun -theme ~/.config/rofi/theme.rasi -show -location 0
 
+# blueman-manager
+super + b
+	blueman-manager
+
 # screensaver
 super + l
 	xscreensaver-command -lock
@@ -55,6 +59,22 @@ super + alt + {q,r}
 # close
 super + q
 	bspc node -c
+
+#Raise volume
+XF86AudioRaiseVolume
+	pactl set-sink-volume @DEFAULT_SINK@ +1000
+
+#Lower volume
+XF86AudioLowerVolume
+	pactl set-sink-volume @DEFAULT_SINK@ -1000
+
+#Toggle volume
+XF86AudioMute
+	pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+#Toggle mic
+super + XF86AudioMute
+	pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
 # alternate between the tiled and monocle layout
 super + m
